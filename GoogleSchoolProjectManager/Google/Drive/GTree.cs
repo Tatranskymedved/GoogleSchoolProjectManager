@@ -34,8 +34,8 @@ namespace GoogleSchoolProjectManager.Google.Drive
             TriageFolders(folderList);
             TriageFiles(fileList, folderList);
 
-            this.Folders = folderList.Where(a => a.Parent == null).ToList();
-            this.Files = fileList.Where(a => a.Parent == null).ToList();
+            this.Folders = folderList.Where(a => a.GParent == null).ToList();
+            this.Files = fileList.Where(a => a.GParent == null).ToList();
         }
 
         public void TriageFolders(List<GFolder> folderList)
@@ -47,7 +47,7 @@ namespace GoogleSchoolProjectManager.Google.Drive
                     var parent = folderList.FirstOrDefault(a => a.IsParentOf(folder));
                     if (parent != null)
                     {
-                        folder.Parent = parent;
+                        folder.GParent = parent;
                         if (!parent.Folders.Contains(folder))
                         {
                             parent.Folders.Add(folder);
@@ -73,7 +73,7 @@ namespace GoogleSchoolProjectManager.Google.Drive
                     var parent = folderList.FirstOrDefault(a => a.IsParentOf(file));
                     if (parent != null)
                     {
-                        file.Parent = parent;
+                        file.GParent = parent;
                         if (!parent.Files.Contains(file))
                         {
                             parent.Files.Add(file);

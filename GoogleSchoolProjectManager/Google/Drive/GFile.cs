@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GoogleSchoolProjectManager.Google.Drive
 {
@@ -11,7 +12,7 @@ namespace GoogleSchoolProjectManager.Google.Drive
     {
         public File FileInfo { get; set; }
 
-        public GFolder Parent { get; set; }
+        public GFolder GParent { get; set; }
 
         public GFile() { }
         public GFile(File file) { FileInfo = file; }

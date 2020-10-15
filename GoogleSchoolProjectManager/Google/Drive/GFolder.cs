@@ -17,7 +17,7 @@ namespace GoogleSchoolProjectManager.Google.Drive
 
         public override string ToString()
         {
-            return this.FileInfo.Name + ": " + string.Join(", ", Folders.Select(a => a.FileInfo.Name)) + " | " + string.Join(", ", Files.Select(a => a.FileInfo.Name));
+            return this.FileInfo.Name;// + ": " + string.Join(", ", Folders.Select(a => a.FileInfo.Name)) + " | " + string.Join(", ", Files.Select(a => a.FileInfo.Name));
         }
     }
 }

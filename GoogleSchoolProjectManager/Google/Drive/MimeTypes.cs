@@ -642,10 +642,10 @@ namespace GoogleSchoolProjectManager.Google.Drive
         public static string GetMimeTypeDescription(string mimeType)
         {
             var type = KnownTypes.FirstOrDefault(a => a.Value.ToLowerInvariant().Equals(mimeType.ToLowerInvariant()));
-            if (type.Equals(default(KeyValuePair<string, string>))) return type.Key;
+            if (type.Key != null) return type.Key;
 
-            type = KnownGoogleTypes.FirstOrDefault(a => a.Key.ToLowerInvariant().Equals(mimeType.ToLowerInvariant()));
-            if (type.Equals(default(KeyValuePair<string, string>))) return type.Value;
+            type = KnownGoogleTypes.FirstOrDefault(a => a.Value.ToLowerInvariant().Equals(mimeType.ToLowerInvariant()));
+            if (type.Key != null) return type.Key;
 
             return mimeType;
         }

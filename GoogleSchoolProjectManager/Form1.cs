@@ -32,42 +32,37 @@ namespace GoogleSchoolProjectManager
         private void btn_update_Click(object sender, EventArgs e)
         {
             const string diskName = "OSTODISK";
-            string result = "";
+
+
             using (var con = new GoogleConnector())
             {
-                var teamDrivesList = con.Drive.Teamdrives.List().Execute();
-                var drivesList = con.Drive.Drives.List().Execute().Drives;
-                var teamDrive = drivesList.FirstOrDefault(a => a.Name.ToUpperInvariant().Contains(diskName.ToUpperInvariant()));
-                if(teamDrive != null)
-                {
+                var man = new GDriveManager(con);
+                man.DriveName = diskName;
+                var tree = man.GetTree();
 
-                    var fileRequest = con.Drive.Files.List();
-                    fileRequest.IncludeItemsFromAllDrives = true;
-                    fileRequest.SupportsTeamDrives = true;
-                    fileRequest.SupportsAllDrives = false;
-                    //fileRequest.Q = ";
-                    var fileResult = fileRequest.Execute();
-
-                    var tree = new GTree(fileResult.Files);
-                    //con.Drive.Drives.Get(teamDrive.Id).Execute();
-                    
-
-
-                }
-                    //List().Execute();
-                var filesList = con.Drive.Files.List().Execute();
-
-                //filesList.Files.First(a => a.MimeType == )
-
-                //var repliesList = con.Drive.;
-
-                ;
-                //var drive = new GDriveManager(con);
-                //result = string.Join(", ", drive.GetFileNames());
+                Add(tree);
             };
+        }
 
-            MessageBox.Show(result);
+        private void Add(GFolder collection, string prefix = "")
+        {
+            var sortedFolders = collection.Folders.OrderBy(a => a.FileInfo.Name);
+            foreach (GFolder item in sortedFolders)
+            {
+                a(prefix + item.ToString());
+                Add(item, prefix + "------------");
+            }
 
+            var sortedFiles = collection.Files.OrderBy(a => a.FileInfo.Name);
+            foreach (GFile item in sortedFiles)
+            {
+                a(prefix + item.ToString());
+            }
+        }
+
+        private void a(string child)
+        {
+            treeView1.Nodes.Add(child.ToString());
         }
 
 

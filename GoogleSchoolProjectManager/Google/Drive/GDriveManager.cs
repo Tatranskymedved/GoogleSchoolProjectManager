@@ -11,6 +11,7 @@ namespace GoogleSchoolProjectManager.Google.Drive
     public class GDriveManager
     {
         private DriveService _service;
+        public string DriveName { get; set; }
         public GDriveManager(GoogleConnector connector)
         {
             this._service = connector.Drive;
@@ -23,23 +24,62 @@ namespace GoogleSchoolProjectManager.Google.Drive
 
         public IList<File> GetFiles()
         {
-            var request = this._service.Files.List();
+            var fileResult = new List<File>();
 
-            request.PageSize = 50;
-            request.Fields = "files(teamDriveId, mimeType, name, id, parents)";
-            var fileList = request.Execute();
+            var teamDrivesList = this._service.Teamdrives.List().Execute().TeamDrives;
+            var teamDrive = teamDrivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName.ToLowerInvariant()));
+            var drivesList = this._service.Drives.List().Execute().Drives;
+            var drive = drivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName.ToLowerInvariant()));
 
-            return fileList.Files;
+            var driveId = teamDrive?.Id ?? drive?.Id;
+
+            if (teamDrive != null)
+            {
+                var fileListRequest = this._service.Files.List();
+
+                if (!string.IsNullOrEmpty(driveId))
+                {
+                    fileListRequest.Corpora = "drive";
+                    fileListRequest.DriveId = driveId;
+                    fileListRequest.SupportsTeamDrives = true;
+                    fileListRequest.SupportsAllDrives = false;
+                    fileListRequest.IncludeItemsFromAllDrives = true;
+                }
+                else
+                {
+                    fileListRequest.SupportsTeamDrives = true;
+                    fileListRequest.SupportsAllDrives = true;
+                    fileListRequest.IncludeItemsFromAllDrives = true;
+                }
+
+                fileListRequest.Fields = "files(teamDriveId, mimeType, name, id, parents)";
+                fileListRequest.PageSize = 1000;
+
+                FileList fileListResult = default(FileList);
+                do
+                {
+                    if (!string.IsNullOrEmpty(fileListResult?.NextPageToken))
+                    {
+                        fileListRequest.PageToken = fileListResult.NextPageToken;
+                    }
+
+                    fileListResult = fileListRequest.Execute();
+                    fileResult.AddRange(fileListResult?.Files);
+                }
+                while (!string.IsNullOrEmpty(fileListResult.NextPageToken));
+            }
+
+            return fileResult;
         }
 
         public IEnumerable<string> GetFileNames()
         {
             return this.GetFiles().Select(a => a.Name);
         }
-
-        public void Get()
+        
+        public GTree GetTree()
         {
-            ;
+            return new GTree(GetFiles());
         }
     }
 }

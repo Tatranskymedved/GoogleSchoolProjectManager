@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoogleSchoolProjectManager.Google.Drive
+namespace GoogleSchoolProjectManager.Lib.Google.Drive
 {
     public static class MimeTypes
     {
@@ -632,7 +632,7 @@ namespace GoogleSchoolProjectManager.Google.Drive
 
         public static bool IsGoogleFolder(string mime) => IsMimeType(mime, GoogleFolder);
         public static bool IsGoogleSpreadSheet(string mime) => IsMimeType(mime, GoogleSpreadSheet);
-        public static bool IsGoogleGoogleDocument(string mime) => IsMimeType(mime, GoogleDocument);
+        public static bool IsGoogleDocument(string mime) => IsMimeType(mime, GoogleDocument);
 
         public static bool IsMimeType(string type1, string type2)
         {

@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSchoolProjectManager", "GoogleSchoolProjectManager\GoogleSchoolProjectManager.csproj", "{09547EF1-9C73-4EC0-832C-30E2EB1ADEB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSchoolProjectManager.ConsoleApp", "GoogleSchoolProjectManager.ConsoleApp\GoogleSchoolProjectManager.ConsoleApp.csproj", "{4DC8B498-8FA4-4855-9D5D-A49B2D498D60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleSchoolProjectManager.ConsoleApp", "GoogleSchoolProjectManager.ConsoleApp\GoogleSchoolProjectManager.ConsoleApp.csproj", "{4DC8B498-8FA4-4855-9D5D-A49B2D498D60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSchoolProjectManager.UI", "GoogleSchoolProjectManager.UI\GoogleSchoolProjectManager.UI.csproj", "{27740115-F668-4CF8-8303-FF29598FD041}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleSchoolProjectManager.Lib", "GoogleSchoolProjectManager.Lib\GoogleSchoolProjectManager.Lib.csproj", "{5ABC11BB-59F9-4BBD-A04C-482D9AA2ECED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{4DC8B498-8FA4-4855-9D5D-A49B2D498D60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DC8B498-8FA4-4855-9D5D-A49B2D498D60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DC8B498-8FA4-4855-9D5D-A49B2D498D60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27740115-F668-4CF8-8303-FF29598FD041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27740115-F668-4CF8-8303-FF29598FD041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27740115-F668-4CF8-8303-FF29598FD041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27740115-F668-4CF8-8303-FF29598FD041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ABC11BB-59F9-4BBD-A04C-482D9AA2ECED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ABC11BB-59F9-4BBD-A04C-482D9AA2ECED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ABC11BB-59F9-4BBD-A04C-482D9AA2ECED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ABC11BB-59F9-4BBD-A04C-482D9AA2ECED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

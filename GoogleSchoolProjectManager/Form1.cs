@@ -7,17 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Docs.v1;
-using Google.Apis.Docs.v1.Data;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
-using Google.Apis.Sheets.v4;
-using Google.Apis.Sheets.v4.Data;
-using GoogleSchoolProjectManager.Google;
-using GoogleSchoolProjectManager.Google.Drive;
+using GoogleSchoolProjectManager.Lib.Google;
+using GoogleSchoolProjectManager.Lib.Google.Drive;
 
 namespace GoogleSchoolProjectManager
 {
@@ -36,11 +29,17 @@ namespace GoogleSchoolProjectManager
 
             using (var con = new GoogleConnector())
             {
+                Do(con);
+
                 var man = new GDriveManager(con);
                 man.DriveName = diskName;
                 var tree = man.GetTree();
-
-                Add(tree);
+                Add(new GFolder()
+                {
+                    Files = tree.findAllSpreadSheets()
+                });
+                
+                //Add(tree);
             };
         }
 
@@ -63,6 +62,12 @@ namespace GoogleSchoolProjectManager
         private void a(string child)
         {
             treeView1.Nodes.Add(child.ToString());
+        }
+
+        public void Do(GoogleConnector con)
+        {
+            //con.Sheets.Spreadsheets.Get();
+
         }
 
 

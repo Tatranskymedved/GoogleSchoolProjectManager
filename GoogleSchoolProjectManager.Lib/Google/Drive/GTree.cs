@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Google.Apis.Drive.v3.Data;
 
-namespace GoogleSchoolProjectManager.Google.Drive
+namespace GoogleSchoolProjectManager.Lib.Google.Drive
 {
     public class GTree : GFolder
     {
         public GTree(IEnumerable<File> files)
+            : base()
         {
             this.Init(files);
         }
@@ -90,6 +91,4 @@ namespace GoogleSchoolProjectManager.Google.Drive
             }
         }
     }
-
-
 }

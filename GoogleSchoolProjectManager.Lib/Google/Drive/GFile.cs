@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
-namespace GoogleSchoolProjectManager.Google.Drive
+namespace GoogleSchoolProjectManager.Lib.Google.Drive
 {
     public class GFile
     {

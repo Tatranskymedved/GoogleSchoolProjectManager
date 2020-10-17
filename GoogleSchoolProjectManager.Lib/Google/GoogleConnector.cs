@@ -9,7 +9,7 @@ using System.IO;
 using System.Web;
 using System.Threading;
 
-namespace GoogleSchoolProjectManager.Google
+namespace GoogleSchoolProjectManager.Lib.Google
 {
     public class GoogleConnector : IDisposable
     {

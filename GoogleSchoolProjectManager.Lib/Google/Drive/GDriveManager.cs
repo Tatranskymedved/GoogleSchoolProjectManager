@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GoogleSchoolProjectManager.Google.Drive
+namespace GoogleSchoolProjectManager.Lib.Google.Drive
 {
     public class GDriveManager
     {

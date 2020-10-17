@@ -4,9 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoogleSchoolProjectManager.UI"
+        xmlns:vm="clr-namespace:GoogleSchoolProjectManager.UI.ViewModel"
+        xmlns:googleLib="clr-namespace:GoogleSchoolProjectManager.Lib.Google;assembly=GoogleSchoolProjectManager.Lib"
+        xmlns:googleLibDrive="clr-namespace:GoogleSchoolProjectManager.Lib.Google.Drive;assembly=GoogleSchoolProjectManager.Lib"
+        xmlns:p="clr-namespace:GoogleSchoolProjectManager.UI.Properties"
+
+        d:DataContext="{StaticResource FakeMainViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="{x:Static p:Resources.APP_Title}" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:FakeMainViewModel />
+    </Window.DataContext>
+    <DockPanel>
+        <Button Command="{Binding GetFolderTree}" Content="{x:Static p:Resources.CMD_GetGoogleDriveTree}" />
+
+        <TreeView ItemsSource="{Binding Tree.Items}" Height="150" VerticalAlignment="Top">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
+
+                    <Label Content="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+    </DockPanel>
 </Window>

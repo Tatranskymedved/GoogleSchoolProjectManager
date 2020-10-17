@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
 {
     public class GTree : GFolder
     {
+        public GTree() : base() { }
+
         public GTree(IEnumerable<File> files)
             : base()
         {
@@ -35,8 +38,12 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             TriageFolders(folderList);
             TriageFiles(fileList, folderList);
 
-            this.Folders = folderList.Where(a => a.GParent == null).ToList();
-            this.Files = fileList.Where(a => a.GParent == null).ToList();
+            this.Folders = new ObservableCollection<GFolder>(folderList.Where(a => a.GParent == null));
+            this.Files = new ObservableCollection<GFile>(fileList.Where(a => a.GParent == null));
+
+            OnPropertyChanged(nameof(Folders));
+            OnPropertyChanged(nameof(Files));
+            OnPropertyChanged(nameof(Items));
         }
 
         public void TriageFolders(List<GFolder> folderList)
@@ -51,6 +58,7 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
                         folder.GParent = parent;
                         if (!parent.Folders.Contains(folder))
                         {
+                            //parent.Items.Add(folder);
                             parent.Folders.Add(folder);
                         }
                     }
@@ -77,6 +85,7 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
                         file.GParent = parent;
                         if (!parent.Files.Contains(file))
                         {
+                            //parent.Items.Add(file);
                             parent.Files.Add(file);
                         }
                     }
@@ -89,6 +98,18 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
                 {
                 }
             }
+        }
+
+        public void UpdateAllFiles(Action<GFile> activity, bool applyToFolders = true)
+        {
+            UpdateAllFilesInFolder(this, activity, applyToFolders);
+        }
+        public void UpdateAllFilesInFolder(GFolder folder, Action<GFile> activity, bool applyToFolders = true)
+        {
+            if (applyToFolders) activity(this);
+
+            folder.Folders.ToList().ForEach(f => UpdateAllFilesInFolder(f, activity, applyToFolders));
+            folder.Files.ToList().ForEach(f => activity(f));
         }
     }
 }

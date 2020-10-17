@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Drive.v3.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,8 +10,12 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
 {
     public class GFolder : GFile
     {
-        public List<GFile> Files { get; set; } = new List<GFile>();
-        public List<GFolder> Folders { get; set; } = new List<GFolder>();
+        //public IEnumerable<GFile> Files => Items.Where(a => !(a is GFolder)); //{ get; set; } = new ObservableCollection<GFile>();
+        public ObservableCollection<GFile> Files { get; set; } = new ObservableCollection<GFile>();
+        //public IEnumerable<GFolder> Folders => Items.Where(a => a is GFolder).Cast<GFolder>();//{ get; set; } = new ObservableCollection<GFolder>();
+        public ObservableCollection<GFolder> Folders { get; set; } = new ObservableCollection<GFolder>();
+        //public ObservableCollection<GFile> Items { get; set; } = new ObservableCollection<GFile>();
+        public ObservableCollection<GFile> Items => new ObservableCollection<GFile>(Folders.Cast<GFile>().Concat(Files));
 
         public GFolder() : base() { }
         public GFolder(File file) : base(file) { }

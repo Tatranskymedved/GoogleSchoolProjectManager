@@ -1,36 +1,178 @@
-﻿<Window x:Class="GoogleSchoolProjectManager.UI.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GoogleSchoolProjectManager.UI"
-        xmlns:vm="clr-namespace:GoogleSchoolProjectManager.UI.ViewModel"
-        xmlns:googleLib="clr-namespace:GoogleSchoolProjectManager.Lib.Google;assembly=GoogleSchoolProjectManager.Lib"
-        xmlns:googleLibDrive="clr-namespace:GoogleSchoolProjectManager.Lib.Google.Drive;assembly=GoogleSchoolProjectManager.Lib"
-        xmlns:p="clr-namespace:GoogleSchoolProjectManager.UI.Properties"
+﻿<mah:MetroWindow x:Class="GoogleSchoolProjectManager.UI.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:local="clr-namespace:GoogleSchoolProjectManager.UI"
+                 xmlns:vm="clr-namespace:GoogleSchoolProjectManager.UI.ViewModel"
+                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:googleLibDrive="clr-namespace:GoogleSchoolProjectManager.Lib.Google.Drive;assembly=GoogleSchoolProjectManager.Lib"
+                 xmlns:p="clr-namespace:GoogleSchoolProjectManager.UI.Properties"
+                 xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                 xmlns:behavior="clr-namespace:GoogleSchoolProjectManager.UI.Behavior"
+                 xmlns:microsoftBehavior="http://schemas.microsoft.com/xaml/behaviors"
+                 xmlns:converter="clr-namespace:GoogleSchoolProjectManager.UI.Converter"
 
-        d:DataContext="{StaticResource FakeMainViewModel}"
-        mc:Ignorable="d"
-        Title="{x:Static p:Resources.APP_Title}" Height="450" Width="800">
-    <Window.DataContext>
-        <vm:FakeMainViewModel />
-    </Window.DataContext>
+                 dialog:DialogParticipation.Register="{Binding}"
+
+                 mc:Ignorable="d"
+                 Title="{x:Static p:Resources.APP_Title}"
+                 Height="768"
+                 Width="1024"
+                 >
+    <Window.Resources>
+        <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </Window.Resources>
     <DockPanel>
-        <Button Command="{Binding GetFolderTree}" Content="{x:Static p:Resources.CMD_GetGoogleDriveTree}" />
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="{x:Static p:Resources.APP_MENU_File}">
+                <MenuItem Header="{x:Static p:Resources.APP_MENU_Exit}" Command="{x:Null}"/>
+            </MenuItem>
+            <!--<MenuItem Header="{x:Static p:Resources.APP_MENU_Tools}">
+                <MenuItem Header="_Manage users">
+                    <MenuItem.Icon>
+                        <Image Source="/WpfTutorialSamples;component/Images/user.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Show groups" IsCheckable="True" IsChecked="True" />
+            </MenuItem>-->
+        </Menu>
 
-        <TreeView ItemsSource="{Binding Tree.Items}" Height="150" VerticalAlignment="Top">
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsExpanded" Value="True"/>
-                </Style>
-            </TreeView.ItemContainerStyle>
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                    <Label Content="{Binding Name}"/>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+            <GroupBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="10" Header="{x:Static p:Resources.APP_GoogleDriveFolderFileList}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
+                    <TreeView Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                              ItemsSource="{Binding Tree.Items}"
+                              IsEnabled="{Binding Path=IsFolderLocked, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+                        <microsoftBehavior:Interaction.Behaviors>
+                            <behavior:BindableSelectedItemBehavior SelectedItem="{Binding MainSelectedItem, Mode=TwoWay}" />
+                        </microsoftBehavior:Interaction.Behaviors>
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <Setter Property="IsExpanded" Value="True"/>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
+                                <Label Content="{Binding Name}"/>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+
+                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_GetFolderTree}" Content="{x:Static p:Resources.CMD_GetFolderTree}" Margin="5"/>
+                    <ToggleButton Grid.Column="1" Grid.Row="1" Margin="5"
+                                  Command="{x:Null}"
+                                  IsEnabled="{Binding IsFolderSelected, Mode=OneWay}"
+                                  IsChecked="{Binding IsFolderLocked}"
+                                  Content="{x:Static p:Resources.CMD_SelectFolder}"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Header="Generování souborů">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Grid.Row="0" Command="{Binding CMD_Generate}" Content="GENERATE" Margin="5"/>
+                        <Label Grid.Column="1"  Grid.Row="0"  Content="{Binding GFileTemplateSource}" />
+
+                        <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="5"/>
+                        <Label Grid.Column="1"  Grid.Row="1"  Content="{Binding GFileTemplateSource}" />
+
+                        <Button Grid.Column="0" Grid.Row="2" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="5"/>
+                        <Label Grid.Column="1"  Grid.Row="2"  Content="{Binding GFileTemplateSource}" />
+
+                        <Button Grid.Column="0" Grid.Row="3" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="5"/>
+                        <Label Grid.Column="1"  Grid.Row="3"  Content="{Binding GFileTemplateSource}" />
+                    </Grid>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Header="Úprava souborů">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Grid.Row="0" Command="{Binding CMD_CheckAllFiles_ForUpdate}" CommandParameter="true" Content="Check all" Margin="5"/>
+                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_CheckAllFiles_ForUpdate}" CommandParameter="false" Content="Uncheck all" Margin="5"/>
+
+                    <Button Grid.Column="0" Grid.Row="4" Command="{Binding CMD_UpdateSelectedKHSes}" Content="START UPDATE" Margin="5"/>
+
+                    <DockPanel Grid.Column="1" Grid.Row="0">
+                        <Label Content="From:"/>
+                        <DatePicker  Loaded="DatePicker_Loaded_ToChangeWaterMark" ToolTip="{x:Static p:Resources.DatePicker_KHS_SelectDateFrom}"
+                                SelectedDate="{Binding DatePicker_KHSUpdate_DateFrom}"/>
+                    </DockPanel>
+                    <DockPanel Grid.Column="1" Grid.Row="1">
+                        <Label Content="To:"/>
+                        <DatePicker Grid.Column="1" Grid.Row="1" Loaded="DatePicker_Loaded_ToChangeWaterMark" ToolTip="{x:Static p:Resources.DatePicker_KHS_SelectDateTo}"
+                                SelectedDate="{Binding DatePicker_KHSUpdate_DateTo}"/>
+                    </DockPanel>
+                    
+
+
+                    <TreeView Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="10"
+                              ItemsSource="{Binding MainSelectedItem.Items}"
+                              IsEnabled="{Binding Path=IsFolderLocked}">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="{x:Type TreeViewItem}">
+                                <Setter Property="IsExpanded" Value="True"/>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelectedForUpdate}" />
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </Grid>
+            </GroupBox>
+        </Grid>
     </DockPanel>
-</Window>
+</mah:MetroWindow>

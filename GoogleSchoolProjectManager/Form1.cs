@@ -11,6 +11,7 @@ using System.IO;
 using System.Threading;
 using GoogleSchoolProjectManager.Lib.Google;
 using GoogleSchoolProjectManager.Lib.Google.Drive;
+using System.Collections.ObjectModel;
 
 namespace GoogleSchoolProjectManager
 {
@@ -36,7 +37,8 @@ namespace GoogleSchoolProjectManager
                 var tree = man.GetTree();
                 Add(new GFolder()
                 {
-                    Files = tree.findAllSpreadSheets()
+                    Files = new ObservableCollection<GFile>(tree.findAllSpreadSheets())
+                    //Items = new ObservableCollection<GFile>(tree.findAllSpreadSheets())
                 });
                 
                 //Add(tree);

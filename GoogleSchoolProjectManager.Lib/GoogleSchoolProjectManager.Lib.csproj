@@ -71,12 +71,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Google\Drive\GDriveManager.cs" />
-    <Compile Include="Google\Drive\GFile.cs" />
-    <Compile Include="Google\Drive\GFolder.cs" />
-    <Compile Include="Google\Drive\GTree.cs" />
-    <Compile Include="Google\Drive\MimeTypes.cs" />
-    <Compile Include="Google\GoogleConnector.cs" />
+    <Compile Include="GoogleAPI\Drive\GDriveManager.cs" />
+    <Compile Include="GoogleAPI\Drive\GFile.cs" />
+    <Compile Include="GoogleAPI\Drive\GFolder.cs" />
+    <Compile Include="GoogleAPI\Drive\GTree.cs" />
+    <Compile Include="GoogleAPI\Drive\MimeTypes.cs" />
+    <Compile Include="GoogleAPI\GoogleConnector.cs" />
+    <Compile Include="GoogleAPI\Sheets\GSheetsManager.cs" />
+    <Compile Include="GoogleAPI\Test\FakeGTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -85,8 +87,6 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Google\Sheets\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

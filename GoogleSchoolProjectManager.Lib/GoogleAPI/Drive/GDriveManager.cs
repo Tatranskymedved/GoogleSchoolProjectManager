@@ -27,9 +27,9 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             var fileResult = new List<File>();
 
             var teamDrivesList = this._service.Teamdrives.List().Execute().TeamDrives;
-            var teamDrive = teamDrivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName.ToLowerInvariant()));
+            var teamDrive = teamDrivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName?.ToLowerInvariant()));
             var drivesList = this._service.Drives.List().Execute().Drives;
-            var drive = drivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName.ToLowerInvariant()));
+            var drive = drivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName?.ToLowerInvariant()));
 
             var driveId = teamDrive?.Id ?? drive?.Id;
 

@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("GoogleSchoolProjectManager.UI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Jan Urbanec")]
 [assembly: AssemblyProduct("GoogleSchoolProjectManager.UI")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]

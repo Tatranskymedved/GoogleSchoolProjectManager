@@ -117,46 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="APP_GoogleDriveFolderFileList" xml:space="preserve">
-    <value>Folders/files on Google Drive</value>
-    <comment>Header of groupbox for selecting folder/file from list of google drive</comment>
-  </data>
-  <data name="APP_MENU_Exit" xml:space="preserve">
-    <value>_Exit</value>
-    <comment>Submenu button, Exit</comment>
-  </data>
-  <data name="APP_MENU_File" xml:space="preserve">
-    <value>_File</value>
-    <comment>Main menu button, File</comment>
-  </data>
   <data name="APP_Title" xml:space="preserve">
-    <value>App Title</value>
-    <comment>Application title</comment>
-  </data>
-  <data name="CMD_GetFolderTree" xml:space="preserve">
-    <value>Refresh</value>
-    <comment>Command button, for downloading tree list</comment>
-  </data>
-  <data name="CMD_SelectFileTemplateSource" xml:space="preserve">
-    <value>Select folder</value>
-  </data>
-  <data name="CMD_SelectFolder" xml:space="preserve">
-    <value>Select folder</value>
-  </data>
-  <data name="DatePicker_KHS_SelectDateFrom" xml:space="preserve">
-    <value>Select week from date</value>
-    <comment>Selection of day when week starts</comment>
-  </data>
-  <data name="DatePicker_KHS_SelectDateTo" xml:space="preserve">
-    <value>Select week to date</value>
-    <comment>Selection of day when week ends</comment>
-  </data>
-  <data name="DIALOG_CMDGetFolderTree_PROGRESS_Message" xml:space="preserve">
-    <value>Contacting server, downloading folders, initializing list.</value>
-    <comment>Messsage of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
-  </data>
-  <data name="DIALOG_CMDGetFolderTree_PROGRESS_Title" xml:space="preserve">
-    <value>Download in progress</value>
-    <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
+    <value>Generátor tabulek Google</value>
   </data>
 </root>

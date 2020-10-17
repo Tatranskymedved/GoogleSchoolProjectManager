@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Web;
 using System.Threading;
+using GoogleSchoolProjectManager.Lib.Google.Drive;
 
 namespace GoogleSchoolProjectManager.Lib.Google
 {
@@ -23,6 +24,9 @@ namespace GoogleSchoolProjectManager.Lib.Google
 
         public DriveService Drive { get; private set; }
         public SheetsService Sheets { get; private set; }
+
+        public GDriveManager DriveManager => new GDriveManager(this);
+        public GSheetsManager SheetsManager => new GSheetsManager(this);
 
         public GoogleConnector()
         {

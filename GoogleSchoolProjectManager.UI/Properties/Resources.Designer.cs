@@ -158,5 +158,14 @@ namespace GoogleSchoolProjectManager.UI.Properties {
                 return ResourceManager.GetString("DIALOG_CMDGetFolderTree_PROGRESS_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT FILE/FOLDER.
+        /// </summary>
+        public static string DIALOG_SelectItemFromTree_Title {
+            get {
+                return ResourceManager.GetString("DIALOG_SelectItemFromTree_Title", resourceCulture);
+            }
+        }
     }
 }

@@ -81,6 +81,17 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             return this.FileInfo.Id == parents.First();
         }
 
+        public string PathWithParents()
+        {
+            return getNameWithParentPath(this);
+        }
+
+        private string getNameWithParentPath(GFile file)
+        {
+            if (file == null) return "";
+            return getNameWithParentPath(file.GParent) + @"/" + file.Name;
+        }
+
         public override string ToString()
         {
             return this.FileInfo.Name + ": " + MimeTypes.GetMimeTypeDescription(this);

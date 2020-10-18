@@ -159,4 +159,7 @@
     <value>Download in progress</value>
     <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
   </data>
+  <data name="DIALOG_SelectItemFromTree_Title" xml:space="preserve">
+    <value>SELECT FILE/FOLDER</value>
+  </data>
 </root>

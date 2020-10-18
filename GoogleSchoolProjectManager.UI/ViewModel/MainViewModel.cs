@@ -1,5 +1,6 @@
 ﻿using GoogleSchoolProjectManager.Lib.Google;
 using GoogleSchoolProjectManager.Lib.Google.Drive;
+using GoogleSchoolProjectManager.UI.View;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -68,12 +69,13 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 				OnPropertyChanged(nameof(IsFolderLocked));
 			}
 		}
-		
-		private string mGFileTemplateSource = null;
+
+		private GFile mGFileTemplateSource = null;
+		public string GFileTemplateSourcePath => GFileTemplateSource?.PathWithParents();
 		///<summary>
-		/// GFolderTemplateSource
+		/// GFileTemplateSource
 		///</summary>
-		public string GFileTemplateSource
+		public GFile GFileTemplateSource
 		{
 			get { return this.mGFileTemplateSource; }
 			set
@@ -82,8 +84,25 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 
 				this.mGFileTemplateSource = value;
 				OnPropertyChanged(nameof(GFileTemplateSource));
+				OnPropertyChanged(nameof(GFileTemplateSourcePath));
 			}
 		}
+
+		//private string mGFileTemplateSourcePath = null;
+		/////<summary>
+		///// GFolderTemplateSourcePath
+		/////</summary>
+		//public string GFileTemplateSourcePath
+		//{
+		//	get { return this.mGFileTemplateSourcePath; }
+		//	set
+		//	{
+		//		if (value == this.mGFileTemplateSourcePath) return;
+
+		//		this.mGFileTemplateSourcePath = value;
+		//		OnPropertyChanged(nameof(GFileTemplateSourcePath));
+		//	}
+		//}
 
 		private string mGFolderSingleFolderOutput = null;
 		///<summary>
@@ -229,7 +248,11 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 
 				mCMD_SelectFileTemplateSource = new RelayCommand(() =>
 				{
-
+					var result = SelectItemFromTreeDialog();
+					if(result != null)
+					{
+						GFileTemplateSource = result;
+					}
 				},
 				() =>
 				{
@@ -324,10 +347,28 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 			}
 		}
 
-		#endregion
+        #endregion
 
-		#region [Implementation of INotifyPropertyChanged]
-		public event PropertyChangedEventHandler PropertyChanged;
+        #region [Methods]
+		/// <summary>
+		/// Creates new Dialog window with selection tree, where user can select File/Folder
+		/// </summary>
+		/// <returns></returns>
+		private GFile SelectItemFromTreeDialog()
+		{
+			var dialog = new SelectItemFromTreeWindow(new SelectItemFromTreeViewModel(Tree));
+			var result = dialog?.ShowDialog();
+			if (result.HasValue && result.Value)
+			{
+				return (dialog.DataContext as SelectItemFromTreeViewModel).SelectedItem;
+			}
+
+			return null;
+		}
+        #endregion
+
+        #region [Implementation of INotifyPropertyChanged]
+        public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string aPropertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(aPropertyName));
         #endregion
     }

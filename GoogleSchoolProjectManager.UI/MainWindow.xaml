@@ -26,7 +26,9 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="{x:Static p:Resources.APP_MENU_File}">
-                <MenuItem Header="{x:Static p:Resources.APP_MENU_Exit}" Command="{x:Null}"/>
+                <MenuItem Header="{x:Static p:Resources.APP_MENU_Exit}" Command="{Binding CMD_CloseWindow}" CommandParameter="{Binding RelativeSource={RelativeSource
+                                                  Mode=FindAncestor,
+                                                  AncestorType=Window}}"/>
             </MenuItem>
             <!--<MenuItem Header="{x:Static p:Resources.APP_MENU_Tools}">
                 <MenuItem Header="_Manage users">
@@ -109,8 +111,8 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0" Grid.Row="0" Command="{Binding CMD_Generate}" Content="GENERATE" Margin="5"/>
-                        <Label Grid.Column="1"  Grid.Row="0"  Content="{Binding GFileTemplateSource}" />
+                        <Button Grid.Column="0" Grid.Row="0" Command="{Binding CMD_SelectFileTemplateSource}" Content="Select" Margin="5"/>
+                        <Label Grid.Column="1"  Grid.Row="0"  Content="{Binding GFileTemplateSourcePath}" />
 
                         <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="5"/>
                         <Label Grid.Column="1"  Grid.Row="1"  Content="{Binding GFileTemplateSource}" />
@@ -155,7 +157,6 @@
                                 SelectedDate="{Binding DatePicker_KHSUpdate_DateTo}"/>
                     </DockPanel>
                     
-
 
                     <TreeView Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="10"
                               ItemsSource="{Binding MainSelectedItem.Items}"

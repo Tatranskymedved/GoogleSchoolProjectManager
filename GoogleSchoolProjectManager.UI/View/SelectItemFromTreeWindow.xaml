@@ -61,11 +61,11 @@
         </TreeView>
         
         <Button Grid.Column="0" Grid.Row="1" Margin="5"
-                Content="CANCEL"
+                Content="{x:Static p:Resources.CMD_CancelSelectedItem}"
                 Command="{Binding CMD_CancelSelectedItem}"
                 CommandParameter="{Binding ElementName=selectItemFromTreeWindowInstance}" />
         <Button Grid.Column="1" Grid.Row="1" Margin="5"
-                Content="SELECT"
+                Content="{x:Static p:Resources.CMD_ConfirmSelectedItem}"
                 Command="{Binding CMD_ConfirmSelectedItem}"
                 CommandParameter="{Binding ElementName=selectItemFromTreeWindowInstance}" />
     </Grid>

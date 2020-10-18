@@ -424,8 +424,9 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 () =>
                 {
                     return !mIsExecutingCMD_GenerateFilesFromTemplate
-                        && ((MainSelectedItem as GFolder) != null)
-                        && ((!(GFileTemplateSource is GFolder)) && GFileTemplateSource != null);
+                        && (MainSelectedItem?.IsGFolder ?? false)
+                        && (GFileTemplateSource?.IsNotGFolder ?? false)
+                        && (FileNamesList.Count > 0);
                 }, null);
 
                 return this.mCMD_GenerateFilesFromTemplate;

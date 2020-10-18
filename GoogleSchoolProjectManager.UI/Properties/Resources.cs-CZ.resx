@@ -117,7 +117,114 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="APP_GoogleDriveFolderFileList" xml:space="preserve">
+    <value>Soubory a složky na Google Disku</value>
+    <comment>Header of groupbox for selecting folder/file from list of google drive</comment>
+  </data>
+  <data name="APP_MENU_Exit" xml:space="preserve">
+    <value>_Ukončit</value>
+    <comment>Submenu button, Exit</comment>
+  </data>
+  <data name="APP_MENU_File" xml:space="preserve">
+    <value>_Soubor</value>
+    <comment>Main menu button, File</comment>
+  </data>
   <data name="APP_Title" xml:space="preserve">
     <value>Generátor tabulek Google</value>
+  </data>
+  <data name="CMD_CancelSelectedItem" xml:space="preserve">
+    <value>Zrušir výběr</value>
+  </data>
+  <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
+    <value>Potvrdit výběr</value>
+  </data>
+  <data name="CMD_GenerateFilesFromTemplate" xml:space="preserve">
+    <value>Generovat soubor ze šablony</value>
+    <comment>Label on button to generate files from template</comment>
+  </data>
+  <data name="CMD_GetFolderTree" xml:space="preserve">
+    <value>Aktualizovat seznam</value>
+    <comment>Command button, for downloading tree list</comment>
+  </data>
+  <data name="CMD_SelectFileNamesSource" xml:space="preserve">
+    <value>Select names for new files</value>
+    <comment>Label on button to select names for new files</comment>
+  </data>
+  <data name="CMD_SelectFileTemplateSource" xml:space="preserve">
+    <value>Vybrat soubor pro šablonu</value>
+    <comment>Label on button to select template file</comment>
+  </data>
+  <data name="CMD_SelectMainFolder" xml:space="preserve">
+    <value>Vybrat složku pro práci</value>
+  </data>
+  <data name="DatePicker_KHS_Label_SelectDateFrom" xml:space="preserve">
+    <value>Od:</value>
+    <comment>Label on DateTimePicker for KHS update, FROM:</comment>
+  </data>
+  <data name="DatePicker_KHS_Label_SelectDateTo" xml:space="preserve">
+    <value>Do:</value>
+    <comment>Label on DateTimePicker for KHS update, TO:</comment>
+  </data>
+  <data name="DatePicker_KHS_SelectDateFrom" xml:space="preserve">
+    <value>Vyberte datum začátku období</value>
+    <comment>Selection of day when week starts</comment>
+  </data>
+  <data name="DatePicker_KHS_SelectDateTo" xml:space="preserve">
+    <value>Vyberte datum konce období</value>
+    <comment>Selection of day when week ends</comment>
+  </data>
+  <data name="DIALOG_CMDGetFolderTree_PROGRESS_Message" xml:space="preserve">
+    <value>Probíhá kontaktování Google Disku a aktualizace seznamu souborů</value>
+    <comment>Messsage of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
+  </data>
+  <data name="DIALOG_CMDGetFolderTree_PROGRESS_Title" xml:space="preserve">
+    <value>Probíhá aktualizace</value>
+    <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
+  </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message" xml:space="preserve">
+    <value>Právě generuji ({0} z {1}): {2}</value>
+    <comment>Message of dialog taht appears when fiels are being created</comment>
+  </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message_Before" xml:space="preserve">
+    <value>Připravuji generování a kontaktuji server</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title" xml:space="preserve">
+    <value>Probíhá generování souborů ze šablony</value>
+    <comment>Title of dialog that appears when files are being created</comment>
+  </data>
+  <data name="DIALOG_SelectItemFromTree_Title" xml:space="preserve">
+    <value>Vyberte soubor/složku</value>
+  </data>
+  <data name="GROUP_HEADER_FileNamesResult" xml:space="preserve">
+    <value>Výsledný seznam souborů s pre/postfixem</value>
+    <comment>Groupbox header: Result list of file names with pre/postfix</comment>
+  </data>
+  <data name="GROUP_HEADER_FileNamesSource" xml:space="preserve">
+    <value>Jména souborů rozděleny pomocí mezer/čárek/omezovačů</value>
+    <comment>Groupbox header: Name of files splitted by new line/quotta/separators</comment>
+  </data>
+  <data name="GROUP_HEADER_GeneratingFiles" xml:space="preserve">
+    <value>Generuji soubory</value>
+    <comment>Groupbox header: Generating files</comment>
+  </data>
+  <data name="GROUP_HEADER_KHSUpdate" xml:space="preserve">
+    <value>Aktualizace jednotlivých KHS souborů</value>
+    <comment>GRoupbox header: KHS update</comment>
+  </data>
+  <data name="GROUP_HEADER_SubjectsAndGoals" xml:space="preserve">
+    <value>Předměty a Cíle</value>
+    <comment>Groupbox header: Subjects and goals</comment>
+  </data>
+  <data name="KHSRequest_Label_Goal" xml:space="preserve">
+    <value>Cíl:</value>
+    <comment>Label for entering goal</comment>
+  </data>
+  <data name="KHSRequest_Label_Subject" xml:space="preserve">
+    <value>Předmět:</value>
+    <comment>Label for entering subject</comment>
+  </data>
+  <data name="Label_NameOfFile" xml:space="preserve">
+    <value>&lt;JménoSouboru&gt;</value>
+    <comment>Label that stands between prefix/postfix to show off (like &lt;NameOfFile&gt;</comment>
   </data>
 </root>

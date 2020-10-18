@@ -97,6 +97,24 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel selection.
+        /// </summary>
+        public static string CMD_CancelSelectedItem {
+            get {
+                return ResourceManager.GetString("CMD_CancelSelectedItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm selection.
+        /// </summary>
+        public static string CMD_ConfirmSelectedItem {
+            get {
+                return ResourceManager.GetString("CMD_ConfirmSelectedItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Generate files from template.
         /// </summary>
         public static string CMD_GenerateFilesFromTemplate {
@@ -133,11 +151,11 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select folder.
+        ///   Looks up a localized string similar to Select main folder.
         /// </summary>
-        public static string CMD_SelectFolder {
+        public static string CMD_SelectMainFolder {
             get {
-                return ResourceManager.GetString("CMD_SelectFolder", resourceCulture);
+                return ResourceManager.GetString("CMD_SelectMainFolder", resourceCulture);
             }
         }
         

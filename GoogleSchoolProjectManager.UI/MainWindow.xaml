@@ -90,12 +90,13 @@
                         </TreeView.ItemTemplate>
                     </TreeView>
 
-                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_GetFolderTree}" Content="{x:Static p:Resources.CMD_GetFolderTree}" Margin="3"/>
+                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_GetFolderTree}" Content="{x:Static p:Resources.CMD_GetFolderTree}" Margin="3" 
+                            IsEnabled="{Binding IsFolderLocked, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"/>
                     <ToggleButton Grid.Column="1" Grid.Row="1" Margin="3"
                                   Command="{x:Null}"
                                   IsEnabled="{Binding IsFolderSelected, Mode=OneWay}"
                                   IsChecked="{Binding IsFolderLocked}"
-                                  Content="{x:Static p:Resources.CMD_SelectFolder}"/>
+                                  Content="{x:Static p:Resources.CMD_SelectMainFolder}"/>
                 </Grid>
             </GroupBox>
 

@@ -133,6 +133,12 @@
     <value>App Title</value>
     <comment>Application title</comment>
   </data>
+  <data name="CMD_CancelSelectedItem" xml:space="preserve">
+    <value>Cancel selection</value>
+  </data>
+  <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
+    <value>Confirm selection</value>
+  </data>
   <data name="CMD_GenerateFilesFromTemplate" xml:space="preserve">
     <value>Generate files from template</value>
     <comment>Label on button to generate files from template</comment>
@@ -149,8 +155,8 @@
     <value>Select template file</value>
     <comment>Label on button to select template file</comment>
   </data>
-  <data name="CMD_SelectFolder" xml:space="preserve">
-    <value>Select folder</value>
+  <data name="CMD_SelectMainFolder" xml:space="preserve">
+    <value>Select main folder</value>
   </data>
   <data name="DatePicker_KHS_Label_SelectDateFrom" xml:space="preserve">
     <value>From:</value>

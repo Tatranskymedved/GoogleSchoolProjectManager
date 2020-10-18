@@ -133,15 +133,32 @@
     <value>App Title</value>
     <comment>Application title</comment>
   </data>
+  <data name="CMD_GenerateFilesFromTemplate" xml:space="preserve">
+    <value>Generate files from template</value>
+    <comment>Label on button to generate files from template</comment>
+  </data>
   <data name="CMD_GetFolderTree" xml:space="preserve">
     <value>Refresh</value>
     <comment>Command button, for downloading tree list</comment>
   </data>
+  <data name="CMD_SelectFileNamesSource" xml:space="preserve">
+    <value>Select names for new files</value>
+    <comment>Label on button to select names for new files</comment>
+  </data>
   <data name="CMD_SelectFileTemplateSource" xml:space="preserve">
-    <value>Select folder</value>
+    <value>Select template file</value>
+    <comment>Label on button to select template file</comment>
   </data>
   <data name="CMD_SelectFolder" xml:space="preserve">
     <value>Select folder</value>
+  </data>
+  <data name="DatePicker_KHS_Label_SelectDateFrom" xml:space="preserve">
+    <value>From:</value>
+    <comment>Label on DateTimePicker for KHS update, FROM:</comment>
+  </data>
+  <data name="DatePicker_KHS_Label_SelectDateTo" xml:space="preserve">
+    <value>To:</value>
+    <comment>Label on DateTimePicker for KHS update, TO:</comment>
   </data>
   <data name="DatePicker_KHS_SelectDateFrom" xml:space="preserve">
     <value>Select week from date</value>
@@ -159,7 +176,50 @@
     <value>Download in progress</value>
     <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
   </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message" xml:space="preserve">
+    <value>Currently generating ({0} of {1}): {2}</value>
+    <comment>Message of dialog taht appears when fiels are being created</comment>
+  </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message_Before" xml:space="preserve">
+    <value>Preparing generating &amp; contacting server</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title" xml:space="preserve">
+    <value>Generating files from template</value>
+    <comment>Title of dialog that appears when files are being created</comment>
+  </data>
   <data name="DIALOG_SelectItemFromTree_Title" xml:space="preserve">
     <value>SELECT FILE/FOLDER</value>
+  </data>
+  <data name="GROUP_HEADER_FileNamesResult" xml:space="preserve">
+    <value>Result list of file names with pre/postfix</value>
+    <comment>Groupbox header: Result list of file names with pre/postfix</comment>
+  </data>
+  <data name="GROUP_HEADER_FileNamesSource" xml:space="preserve">
+    <value>Name of files splitted by new line/quotta/separators</value>
+    <comment>Groupbox header: Name of files splitted by new line/quotta/separators</comment>
+  </data>
+  <data name="GROUP_HEADER_GeneratingFiles" xml:space="preserve">
+    <value>Generating files</value>
+    <comment>Groupbox header: Generating files</comment>
+  </data>
+  <data name="GROUP_HEADER_KHSUpdate" xml:space="preserve">
+    <value>KHS Update</value>
+    <comment>GRoupbox header: KHS update</comment>
+  </data>
+  <data name="GROUP_HEADER_SubjectsAndGoals" xml:space="preserve">
+    <value>Subjects and Goals</value>
+    <comment>Groupbox header: Subjects and goals</comment>
+  </data>
+  <data name="KHSRequest_Label_Goal" xml:space="preserve">
+    <value>Goal:</value>
+    <comment>Label for entering goal</comment>
+  </data>
+  <data name="KHSRequest_Label_Subject" xml:space="preserve">
+    <value>Subject:</value>
+    <comment>Label for entering subject</comment>
+  </data>
+  <data name="Label_NameOfFile" xml:space="preserve">
+    <value>&lt;NameOfFile&gt;</value>
+    <comment>Label that stands between prefix/postfix to show off (like &lt;NameOfFile&gt;</comment>
   </data>
 </root>

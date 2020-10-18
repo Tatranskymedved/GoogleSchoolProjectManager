@@ -27,7 +27,7 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
 
         public GFile findFile(Func<GFile, bool> predicate)
         {
-            return findFileInFolder(this, predicate);
+            return FindFileInFolder(this, predicate);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
         /// <param name="folder"></param>
         /// <param name="predicate"></param>
         /// <returns></returns>
-        public GFile findFileInFolder(GFolder folder, Func<GFile, bool> predicate)
+        public GFile FindFileInFolder(GFolder folder, Func<GFile, bool> predicate)
         {
             GFile result;
             result = folder.Files.FirstOrDefault(predicate);
@@ -44,13 +44,13 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
 
             foreach (GFolder item in folder.Folders)
             {
-                GFile r = findFileInFolder(item, predicate);
+                GFile r = FindFileInFolder(item, predicate);
                 if (r != null) return r;
             }
 
             return null;
         }
-        public List<GFile> findAllFilesDistinct(Func<GFile, bool> predicate)
+        public List<GFile> FindAllFilesDistinct(Func<GFile, bool> predicate)
         {
             var result = new List<GFile>();
             GFile lastResult;
@@ -63,14 +63,15 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             return result;
         }
 
-        public GFile findFileByName(string fileName) => findFile(a => a.FileInfo.Name.Equals(fileName));
-        public GFile findFileByNameContains(string lookupPhrase) => findFile(a => a.FileInfo.Name.Contains(lookupPhrase));
-        public GFile findFileById(string id) => findFile(a => a.FileInfo.Id.Equals(id));
+        public GFile FindFileByName(string fileName) => findFile(a => a.FileInfo.Name.Equals(fileName));
+        public GFile FindFileByNameContains(string lookupPhrase) => findFile(a => a.FileInfo.Name.Contains(lookupPhrase));
+        public GFile FindFileById(string id) => findFile(a => a.FileInfo.Id.Equals(id));
 
-        public List<GFile> findFilesByName(string fileName) => findAllFilesDistinct(a => a.FileInfo.Name.Equals(fileName));
-        public List<GFile> findFilesByNameContains(string lookupPhrase) => findAllFilesDistinct(a => a.FileInfo.Name.Contains(lookupPhrase));
+        public List<GFile> FindFilesByName(string fileName) => FindAllFilesDistinct(a => a.FileInfo.Name.Equals(fileName));
+        public List<GFile> FindFilesByNameContains(string lookupPhrase) => FindAllFilesDistinct(a => a.FileInfo.Name.Contains(lookupPhrase));
 
-        public List<GFile> findAllSpreadSheets() => findAllFilesDistinct(a => MimeTypes.IsGoogleSpreadSheet(a.FileInfo.MimeType));
-        public List<GFile> findAllDocuments() => findAllFilesDistinct(a => MimeTypes.IsGoogleDocument(a.FileInfo.MimeType));
+        public List<GFile> FindAllSpreadSheets() => FindAllFilesDistinct(a => MimeTypes.IsGoogleSpreadSheet(a.FileInfo.MimeType));
+        public List<GFile> FindAllDocuments() => FindAllFilesDistinct(a => MimeTypes.IsGoogleDocument(a.FileInfo.MimeType));
+        public List<GFile> FindAllFilesSelectedForUpdate() => FindAllFilesDistinct(a => a.IsSelectedForUpdate);
     }
 }

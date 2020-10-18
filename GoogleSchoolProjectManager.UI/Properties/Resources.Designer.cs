@@ -97,6 +97,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Generate files from template.
+        /// </summary>
+        public static string CMD_GenerateFilesFromTemplate {
+            get {
+                return ResourceManager.GetString("CMD_GenerateFilesFromTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Refresh.
         /// </summary>
         public static string CMD_GetFolderTree {
@@ -106,7 +115,16 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select folder.
+        ///   Looks up a localized string similar to Select names for new files.
+        /// </summary>
+        public static string CMD_SelectFileNamesSource {
+            get {
+                return ResourceManager.GetString("CMD_SelectFileNamesSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select template file.
         /// </summary>
         public static string CMD_SelectFileTemplateSource {
             get {
@@ -120,6 +138,24 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string CMD_SelectFolder {
             get {
                 return ResourceManager.GetString("CMD_SelectFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From:.
+        /// </summary>
+        public static string DatePicker_KHS_Label_SelectDateFrom {
+            get {
+                return ResourceManager.GetString("DatePicker_KHS_Label_SelectDateFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To:.
+        /// </summary>
+        public static string DatePicker_KHS_Label_SelectDateTo {
+            get {
+                return ResourceManager.GetString("DatePicker_KHS_Label_SelectDateTo", resourceCulture);
             }
         }
         
@@ -138,6 +174,33 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string DatePicker_KHS_SelectDateTo {
             get {
                 return ResourceManager.GetString("DatePicker_KHS_SelectDateTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently generating ({0} of {1}): {2}.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing generating &amp; contacting server.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message_Before {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message_Before", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generating files from template.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title", resourceCulture);
             }
         }
         
@@ -165,6 +228,78 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string DIALOG_SelectItemFromTree_Title {
             get {
                 return ResourceManager.GetString("DIALOG_SelectItemFromTree_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result list of file names with pre/postfix.
+        /// </summary>
+        public static string GROUP_HEADER_FileNamesResult {
+            get {
+                return ResourceManager.GetString("GROUP_HEADER_FileNamesResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of files splitted by new line/quotta/separators.
+        /// </summary>
+        public static string GROUP_HEADER_FileNamesSource {
+            get {
+                return ResourceManager.GetString("GROUP_HEADER_FileNamesSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generating files.
+        /// </summary>
+        public static string GROUP_HEADER_GeneratingFiles {
+            get {
+                return ResourceManager.GetString("GROUP_HEADER_GeneratingFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to KHS Update.
+        /// </summary>
+        public static string GROUP_HEADER_KHSUpdate {
+            get {
+                return ResourceManager.GetString("GROUP_HEADER_KHSUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subjects and Goals.
+        /// </summary>
+        public static string GROUP_HEADER_SubjectsAndGoals {
+            get {
+                return ResourceManager.GetString("GROUP_HEADER_SubjectsAndGoals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Goal:.
+        /// </summary>
+        public static string KHSRequest_Label_Goal {
+            get {
+                return ResourceManager.GetString("KHSRequest_Label_Goal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Subject:.
+        /// </summary>
+        public static string KHSRequest_Label_Subject {
+            get {
+                return ResourceManager.GetString("KHSRequest_Label_Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;NameOfFile&gt;.
+        /// </summary>
+        public static string Label_NameOfFile {
+            get {
+                return ResourceManager.GetString("Label_NameOfFile", resourceCulture);
             }
         }
     }

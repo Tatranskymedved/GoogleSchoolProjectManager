@@ -10,37 +10,46 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
 {
     public class GDriveManager
     {
-        private DriveService _service;
+        private DriveService Service;
+
         public string DriveName { get; set; }
+        private bool mDriveIdInitialized = false;
+        private string mDriveId;
+        public string DriveId
+        {
+            get
+            {
+                if (!mDriveIdInitialized)
+                {
+                    mDriveId = GetDriveId();
+                    mDriveIdInitialized = true;
+                }
+                return mDriveId;
+            }
+        }
+
         public GDriveManager(GoogleConnector connector)
         {
-            this._service = connector.Drive;
+            this.Service = connector.Drive;
         }
 
         public GDriveManager(DriveService service)
         {
-            this._service = service;
+            this.Service = service;
         }
 
         public IList<File> GetFiles()
         {
             var fileResult = new List<File>();
 
-            var teamDrivesList = this._service.Teamdrives.List().Execute().TeamDrives;
-            var teamDrive = teamDrivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName?.ToLowerInvariant()));
-            var drivesList = this._service.Drives.List().Execute().Drives;
-            var drive = drivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName?.ToLowerInvariant()));
-
-            var driveId = teamDrive?.Id ?? drive?.Id;
-
-            if (teamDrive != null)
+            if (DriveId != null)
             {
-                var fileListRequest = this._service.Files.List();
+                var fileListRequest = this.Service.Files.List();
 
-                if (!string.IsNullOrEmpty(driveId))
+                if (!string.IsNullOrEmpty(DriveId))
                 {
                     fileListRequest.Corpora = "drive";
-                    fileListRequest.DriveId = driveId;
+                    fileListRequest.DriveId = DriveId;
                     fileListRequest.SupportsTeamDrives = true;
                     fileListRequest.SupportsAllDrives = false;
                     fileListRequest.IncludeItemsFromAllDrives = true;
@@ -76,10 +85,46 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
         {
             return this.GetFiles().Select(a => a.Name);
         }
-        
+
         public GTree GetTree()
         {
             return new GTree(GetFiles());
+        }
+
+        public void CopyFile(GFile source, GFolder destination, string newFileName)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
+
+            var fileCopyRequest = this.Service.Files.Copy(new File()
+            {
+                Parents = new string[] { destination?.FileInfo?.Id },
+                Name = newFileName
+            }, source.FileInfo.Id);
+
+            if (!string.IsNullOrEmpty(DriveId))
+            {
+                fileCopyRequest.SupportsTeamDrives = true;
+                fileCopyRequest.SupportsAllDrives = false;
+            }
+            else
+            {
+                fileCopyRequest.SupportsTeamDrives = true;
+                fileCopyRequest.SupportsAllDrives = true;
+            }
+
+            //var fileCopyRequest = this.Service.Files.Copy(source.FileInfo, source.FileInfo.Id);
+            fileCopyRequest.Execute();
+        }
+
+        private string GetDriveId()
+        {
+            var teamDrivesList = this.Service.Teamdrives.List().Execute().TeamDrives;
+            var teamDrive = teamDrivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName?.ToLowerInvariant() ?? ""));
+            var drivesList = this.Service.Drives.List().Execute().Drives;
+            var drive = drivesList.FirstOrDefault(a => a.Name.ToLowerInvariant().Contains(DriveName?.ToLowerInvariant() ?? ""));
+
+            return teamDrive?.Id ?? drive?.Id;
         }
     }
 }

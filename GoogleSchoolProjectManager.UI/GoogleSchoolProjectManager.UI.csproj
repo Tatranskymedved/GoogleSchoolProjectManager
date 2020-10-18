@@ -54,6 +54,7 @@
       <HintPath>..\packages\ControlzEx.4.3.2\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="Google.Apis.Drive.v3, Version=1.49.0.2111, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab" />
+    <Reference Include="Google.Apis.Sheets.v4, Version=1.49.0.2105, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab" />
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.2.2.0\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>

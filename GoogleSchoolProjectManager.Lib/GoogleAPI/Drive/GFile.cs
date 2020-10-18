@@ -97,6 +97,9 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             return this.FileInfo.Name + ": " + MimeTypes.GetMimeTypeDescription(this);
         }
 
+        public bool IsNotGFolder => (this as GFolder) == null ? true : false;
+        public bool IsGFolder => (this as GFolder) != null ? true : false;
+
 
         #region [Implementation of INotifyPropertyChanged]
         public event PropertyChangedEventHandler PropertyChanged;

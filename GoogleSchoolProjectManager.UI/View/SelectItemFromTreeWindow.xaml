@@ -45,7 +45,17 @@
             </TreeView.ItemContainerStyle>
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
-                    <Label Content="{Binding Name}"/>
+                    <Label Content="{Binding Name}">
+                        <Label.Style>
+                            <Style TargetType="{x:Type Label}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsGFolder}" Value="true">
+                                        <Setter Property="FontWeight" Value="Bold"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>

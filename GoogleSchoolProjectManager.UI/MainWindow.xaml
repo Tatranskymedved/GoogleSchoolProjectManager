@@ -42,8 +42,8 @@
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -51,7 +51,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="10" Header="{x:Static p:Resources.APP_GoogleDriveFolderFileList}">
+            <GroupBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="10" Header="{x:Static p:Resources.APP_GoogleDriveFolderFileList}" Margin="1">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -75,13 +75,23 @@
                         </TreeView.ItemContainerStyle>
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
-                                <Label Content="{Binding Name}"/>
+                                <Label Content="{Binding Name}">
+                                    <Label.Style>
+                                        <Style TargetType="{x:Type Label}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsGFolder}" Value="true">
+                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>
 
-                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_GetFolderTree}" Content="{x:Static p:Resources.CMD_GetFolderTree}" Margin="5"/>
-                    <ToggleButton Grid.Column="1" Grid.Row="1" Margin="5"
+                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_GetFolderTree}" Content="{x:Static p:Resources.CMD_GetFolderTree}" Margin="3"/>
+                    <ToggleButton Grid.Column="1" Grid.Row="1" Margin="3"
                                   Command="{x:Null}"
                                   IsEnabled="{Binding IsFolderSelected, Mode=OneWay}"
                                   IsChecked="{Binding IsFolderLocked}"
@@ -89,49 +99,63 @@
                 </Grid>
             </GroupBox>
 
-            <GroupBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Header="Generování souborů">
+            <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static p:Resources.GROUP_HEADER_GeneratingFiles}" Margin="1" IsEnabled="{Binding IsFolderLocked, Mode=OneWay}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*" MaxHeight="35"/>
+                        <RowDefinition Height="*" MaxHeight="35"/>
+                        <RowDefinition Height="*" MaxHeight="35"/>
+                        <RowDefinition Height="*" MaxHeight="35"/>
                         <RowDefinition Height="*"/>
+                        <!--<RowDefinition Height="*" MaxHeight="35"/>-->
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <GroupBox Header="{x:Static p:Resources.GROUP_HEADER_FileNamesSource}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="10">
+                        <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Text="{Binding FileNamesSource, UpdateSourceTrigger=PropertyChanged}"/>
+                    </GroupBox>
+                    
+                    <Button Grid.Column="1" Grid.Row="0" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="3"/>
+                    <TextBox IsReadOnly="True" Grid.Column="2" Grid.Row="0" Text="{Binding GFileTemplateSourcePath, Mode=OneWay}" Margin="5,2"/>
+
+                    <!--<Button Grid.Column="1" Grid.Row="1" Command="{Binding CMD_SelectFileNamesSource}" Content="{x:Static p:Resources.CMD_SelectFileNamesSource}" Margin="3"/>-->
+                    <Grid Grid.Column="2" Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-
-                        <Button Grid.Column="0" Grid.Row="0" Command="{Binding CMD_SelectFileTemplateSource}" Content="Select" Margin="5"/>
-                        <Label Grid.Column="1"  Grid.Row="0"  Content="{Binding GFileTemplateSourcePath}" />
-
-                        <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="5"/>
-                        <Label Grid.Column="1"  Grid.Row="1"  Content="{Binding GFileTemplateSource}" />
-
-                        <Button Grid.Column="0" Grid.Row="2" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="5"/>
-                        <Label Grid.Column="1"  Grid.Row="2"  Content="{Binding GFileTemplateSource}" />
-
-                        <Button Grid.Column="0" Grid.Row="3" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="5"/>
-                        <Label Grid.Column="1"  Grid.Row="3"  Content="{Binding GFileTemplateSource}" />
+                        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding GenerateFilesFromTemplatePrefix, UpdateSourceTrigger=PropertyChanged}" Margin="5,2,0,2"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Static p:Resources.Label_NameOfFile}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding GenerateFilesFromTemplatePostfix, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,5,2"/>
                     </Grid>
+
+                    <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="3"
+                            Command="{Binding CMD_GenerateFilesFromTemplate}"
+                            Content="{x:Static p:Resources.CMD_GenerateFilesFromTemplate}"/>
+
+                    <GroupBox Header="{x:Static p:Resources.GROUP_HEADER_FileNamesResult}" Grid.Column="3" Grid.Row="0" Grid.RowSpan="10">
+                        <ListBox ItemsSource="{Binding FileNamesList}" BorderBrush="ForestGreen" BorderThickness="1">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="MaxHeight" Value="35" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </GroupBox>
                 </Grid>
             </GroupBox>
 
-            <GroupBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Header="Úprava souborů">
+            <GroupBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Header="{x:Static p:Resources.GROUP_HEADER_KHSUpdate}" Margin="1" IsEnabled="{Binding IsFolderLocked, Mode=OneWay}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="5*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
@@ -141,34 +165,93 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Grid.Row="0" Command="{Binding CMD_CheckAllFiles_ForUpdate}" CommandParameter="true" Content="Check all" Margin="5"/>
-                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_CheckAllFiles_ForUpdate}" CommandParameter="false" Content="Uncheck all" Margin="5"/>
 
-                    <Button Grid.Column="0" Grid.Row="4" Command="{Binding CMD_UpdateSelectedKHSes}" Content="START UPDATE" Margin="5"/>
-
-                    <DockPanel Grid.Column="1" Grid.Row="0">
-                        <Label Content="From:"/>
-                        <DatePicker  Loaded="DatePicker_Loaded_ToChangeWaterMark" ToolTip="{x:Static p:Resources.DatePicker_KHS_SelectDateFrom}"
-                                SelectedDate="{Binding DatePicker_KHSUpdate_DateFrom}"/>
+                    <DockPanel Grid.Column="0" Grid.Row="0">
+                        <TextBlock Text="{x:Static p:Resources.DatePicker_KHS_Label_SelectDateFrom}" MinWidth="30" VerticalAlignment="Center"/>
+                        <DatePicker Loaded="DatePicker_Loaded_ToChangeWaterMark" ToolTip="{x:Static p:Resources.DatePicker_KHS_SelectDateFrom}" Margin="5,2"
+                                SelectedDate="{Binding UpdateKHSRequest.DateFrom}"/>
                     </DockPanel>
-                    <DockPanel Grid.Column="1" Grid.Row="1">
-                        <Label Content="To:"/>
-                        <DatePicker Grid.Column="1" Grid.Row="1" Loaded="DatePicker_Loaded_ToChangeWaterMark" ToolTip="{x:Static p:Resources.DatePicker_KHS_SelectDateTo}"
-                                SelectedDate="{Binding DatePicker_KHSUpdate_DateTo}"/>
+                    <DockPanel Grid.Column="0" Grid.Row="1">
+                        <TextBlock Text="{x:Static p:Resources.DatePicker_KHS_Label_SelectDateTo}" MinWidth="30" VerticalAlignment="Center"/>
+                        <DatePicker Loaded="DatePicker_Loaded_ToChangeWaterMark" ToolTip="{x:Static p:Resources.DatePicker_KHS_SelectDateTo}" Margin="5,2"
+                                SelectedDate="{Binding UpdateKHSRequest.DateTo}"/>
                     </DockPanel>
-                    
 
-                    <TreeView Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="10"
+                    <Button Grid.Column="1" Grid.Row="0" Command="{Binding CMD_CheckAllFiles_ForUpdate}" CommandParameter="true" Content="Check all KHSes" Margin="3"/>
+                    <Button Grid.Column="1" Grid.Row="1" Command="{Binding CMD_CheckAllFiles_ForUpdate}" CommandParameter="false" Content="Uncheck all KHSes" Margin="3"/>
+
+                    <GroupBox Grid.Column="0" Grid.Row="2" Grid.RowSpan="1" Grid.ColumnSpan="2" Header="{x:Static p:Resources.GROUP_HEADER_SubjectsAndGoals}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*" />
+                                <RowDefinition Height="2*" MaxHeight="35" />
+                                <RowDefinition Height="4*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" MaxWidth="50"/>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" MinHeight="26"/>
+                                    <RowDefinition Height="*" MinHeight="26"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Static p:Resources.KHSRequest_Label_Subject}" VerticalAlignment="Center"/>
+                                <TextBox   Grid.Column="1" Grid.Row="0" Text="{Binding KHSRequestEditSubject}" Margin="5,2"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{x:Static p:Resources.KHSRequest_Label_Goal}" VerticalAlignment="Center"/>
+                                <TextBox   Grid.Column="1" Grid.Row="1" Text="{Binding KHSRequestEditGoal}" Margin="5,2"/>
+                            </Grid>
+
+                            <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_KHSRequest_AddSubjectGoal}" Content="Add" Margin="3"/>
+                            <Button Grid.Column="1" Grid.Row="1" Command="{Binding CMD_KHSRequest_RemoveSubjectGoal}" Content="Remove" Margin="3"/>
+
+                            <ListBox Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2"
+                                     SelectedItem="{Binding UpdateKHSRequest.SelectedSubjectGoal}"
+                                     ItemsSource="{Binding UpdateKHSRequest.SubjectGoalList}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="BorderThickness" Value="1" />
+                                        <Setter Property="BorderBrush" Value="Black" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Subject}" FontWeight="Bold"/>
+                                            <Separator />
+                                            <TextBlock Text="{Binding Goal}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Grid>
+                    </GroupBox>
+
+                    <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Command="{Binding CMD_KHSRequest_UpdateSelectedKHSes}" Content="START UPDATE" Margin="3"/>
+
+                    <TreeView Grid.Column="2" Grid.Row="0" Grid.RowSpan="10"
                               ItemsSource="{Binding MainSelectedItem.Items}"
                               IsEnabled="{Binding Path=IsFolderLocked}">
-                        <TreeView.ItemContainerStyle>
-                            <Style TargetType="{x:Type TreeViewItem}">
-                                <Setter Property="IsExpanded" Value="True"/>
-                            </Style>
-                        </TreeView.ItemContainerStyle>
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
-                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelectedForUpdate}" />
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelectedForUpdate}">
+                                    <CheckBox.Style>
+                                        <Style TargetType="{x:Type CheckBox}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsGFolder}" Value="true">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
                     </TreeView>

@@ -37,7 +37,7 @@ namespace GoogleSchoolProjectManager
                 var tree = man.GetTree();
                 Add(new GFolder()
                 {
-                    Files = new ObservableCollection<GFile>(tree.findAllSpreadSheets())
+                    Files = new ObservableCollection<GFile>(tree.FindAllSpreadSheets())
                     //Items = new ObservableCollection<GFile>(tree.findAllSpreadSheets())
                 });
                 
@@ -71,82 +71,5 @@ namespace GoogleSchoolProjectManager
             //con.Sheets.Spreadsheets.Get();
 
         }
-
-
-        //// Pass in your data as a list of a list (2-D lists are equivalent to the 2-D spreadsheet structure)
-        //public string UpdateData(List<IList<object>> data)
-        //{
-        //    String range = "My Tab Name!A1:Y";
-        //    string valueInputOption = "USER_ENTERED";
-
-        //    // The new values to apply to the spreadsheet.
-        //    var updateData = new List<Google.Apis.Sheets.v4.Data.ValueRange>();
-        //    var dataValueRange = new Google.Apis.Sheets.v4.Data.ValueRange();
-        //    dataValueRange.Range = range;
-        //    dataValueRange.Values = data;
-        //    updateData.Add(dataValueRange);
-
-        //    var requestBody = new Google.Apis.Sheets.v4.Data.BatchUpdateValuesRequest();
-        //    requestBody.ValueInputOption = valueInputOption;
-        //    requestBody.Data = updateData;
-
-        //    var request = SheetsService.Spreadsheets.Values.BatchUpdate(requestBody, _spreadsheetId);
-
-        //    var response = request.Execute();
-        //    // Data.BatchUpdateValuesResponse response = await request.ExecuteAsync(); // For async 
-
-        //    return JsonConvert.SerializeObject(response);
-        //}
-
-        //UserCredential credential;
-
-        //using (var stream =
-        //    new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-        //{
-        //    // The file token.json stores the user's access and refresh tokens, and is created
-        //    // automatically when the authorization flow completes for the first time.
-        //    string credPath = "token.json";
-        //    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-        //        GoogleClientSecrets.Load(stream).Secrets,
-        //        Scopes,
-        //        "user",
-        //        CancellationToken.None,
-        //        new FileDataStore(credPath, true)).Result;
-        //    Console.WriteLine("Credential file saved to: " + credPath);
-        //}
-
-        //// Create Google Sheets API service.
-        //var service = new SheetsService(new BaseClientService.Initializer()
-        //{
-        //    HttpClientInitializer = credential,
-        //    ApplicationName = ApplicationName,
-        //});
-
-        //// Define request parameters.
-        //String spreadsheetId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-        //String range = "Class Data!A2:E";
-        //SpreadsheetsResource.ValuesResource.GetRequest request =
-        //        service.Spreadsheets.Values.Get(spreadsheetId, range);
-
-        //// Prints the names and majors of students in a sample spreadsheet:
-        //// https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
-        //ValueRange response = request.Execute();
-        //IList<IList<Object>> values = response.Values;
-        //if (values != null && values.Count > 0)
-        //{
-        //    Console.WriteLine("Name, Major");
-        //    foreach (var row in values)
-        //    {
-        //        // Print columns A and E, which correspond to indices 0 and 4.
-        //        Console.WriteLine("{0}, {1}", row[0], row[4]);
-        //    }
-        //}
-        //else
-        //{
-        //    Console.WriteLine("No data found.");
-        //}
-        //Console.Read();
-
-
     }
 }

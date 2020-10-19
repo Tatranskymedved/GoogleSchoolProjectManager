@@ -31,7 +31,6 @@ namespace GoogleSchoolProjectManager.UI
             System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
             InitializeComponent();
-
         }
 
         private void DatePicker_Loaded_ToChangeWaterMark(object sender, RoutedEventArgs e)
@@ -41,9 +40,6 @@ namespace GoogleSchoolProjectManager.UI
 
             var toolTipValue = datePicker?.ToolTip?.ToString();
             if (string.IsNullOrEmpty(toolTipValue)) return;
-            
-
-
 
             var datePickerTextBox = FindVisualChild<System.Windows.Controls.Primitives.DatePickerTextBox>(datePicker);
             if (datePickerTextBox != null)

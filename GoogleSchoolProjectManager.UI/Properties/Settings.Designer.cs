@@ -43,5 +43,29 @@ namespace GoogleSchoolProjectManager.UI.Properties {
                 this["GoogleDiskDrive"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CÍLE")]
+        public string KHSSheetName {
+            get {
+                return ((string)(this["KHSSheetName"]));
+            }
+            set {
+                this["KHSSheetName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("B4:B")]
+        public string KHS_A1_WeekColumn {
+            get {
+                return ((string)(this["KHS_A1_WeekColumn"]));
+            }
+            set {
+                this["KHS_A1_WeekColumn"] = value;
+            }
+        }
     }
 }

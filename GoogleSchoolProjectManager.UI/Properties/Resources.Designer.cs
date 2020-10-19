@@ -106,6 +106,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check all KHSes.
+        /// </summary>
+        public static string CMD_CheckAllFiles_ForUpdate {
+            get {
+                return ResourceManager.GetString("CMD_CheckAllFiles_ForUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm selection.
         /// </summary>
         public static string CMD_ConfirmSelectedItem {
@@ -133,6 +142,33 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string CMD_KHSRequest_AddSubjectGoal {
+            get {
+                return ResourceManager.GetString("CMD_KHSRequest_AddSubjectGoal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string CMD_KHSRequest_RemoveSubjectGoal {
+            get {
+                return ResourceManager.GetString("CMD_KHSRequest_RemoveSubjectGoal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start updating KHSes.
+        /// </summary>
+        public static string CMD_KHSRequest_UpdateSelectedKHSes {
+            get {
+                return ResourceManager.GetString("CMD_KHSRequest_UpdateSelectedKHSes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select names for new files.
         /// </summary>
         public static string CMD_SelectFileNamesSource {
@@ -156,6 +192,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string CMD_SelectMainFolder {
             get {
                 return ResourceManager.GetString("CMD_SelectMainFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uncheck all KHSes.
+        /// </summary>
+        public static string CMD_UnCheckAllFiles_ForUpdate {
+            get {
+                return ResourceManager.GetString("CMD_UnCheckAllFiles_ForUpdate", resourceCulture);
             }
         }
         
@@ -223,6 +268,33 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Currently updating ({0} of {1}): {2}.
+        /// </summary>
+        public static string DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing for update &amp; contacting server.
+        /// </summary>
+        public static string DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message_Before {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message_Before", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating KHSes.
+        /// </summary>
+        public static string DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contacting server, downloading folders, initializing list..
         /// </summary>
         public static string DIALOG_CMDGetFolderTree_PROGRESS_Message {
@@ -250,7 +322,7 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Result list of file names with pre/postfix.
+        ///   Looks up a localized string similar to Result file names.
         /// </summary>
         public static string GROUP_HEADER_FileNamesResult {
             get {
@@ -259,7 +331,7 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name of files splitted by new line/quotta/separators.
+        ///   Looks up a localized string similar to Source of file names.
         /// </summary>
         public static string GROUP_HEADER_FileNamesSource {
             get {
@@ -291,6 +363,24 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string GROUP_HEADER_SubjectsAndGoals {
             get {
                 return ResourceManager.GetString("GROUP_HEADER_SubjectsAndGoals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result list of file names with pre/postfix, which will be created on Google Drive.
+        /// </summary>
+        public static string GROUP_TOOLTIP_FileNamesResult {
+            get {
+                return ResourceManager.GetString("GROUP_TOOLTIP_FileNamesResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source of file names which should be splitted into several lines or by separators ( , ; | ).
+        /// </summary>
+        public static string GROUP_TOOLTIP_FileNamesSource {
+            get {
+                return ResourceManager.GetString("GROUP_TOOLTIP_FileNamesSource", resourceCulture);
             }
         }
         

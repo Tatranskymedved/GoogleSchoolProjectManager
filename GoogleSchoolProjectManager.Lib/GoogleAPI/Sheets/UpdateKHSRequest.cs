@@ -56,6 +56,8 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
+        public string GetFormattedDateRange() => DateRange.Generate(DateFrom.Value, DateTo.Value);
+
         private string mSheetName = "CÍLE";
         ///<summary>
         /// SheetName
@@ -72,10 +74,14 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
-        public string WeekColumn { get; set; } = "B4:B";
-        public string SubjectColumn { get; set; } = "C4:C";
-        public string GoalColumn { get; set; } = "D4:D";
-        public string WeekSubjectGoalColumns { get; set; } = "B4:D";
+
+        public static string A1_WeekColumn { get; set; } = "B4:B";
+        public static string A1_SubjectColumn { get; set; } = "C4:C";
+        public static string A1_GoalColumn { get; set; } = "D4:D";
+        public static string A1_WeekSubjectGoalColumns { get; set; } = "B4:D";
+        public static string A1_GetRange_WeekSubjectGoalColumns(int startRow, int endRow) => string.Format("B{0}:D{1}", startRow, endRow);
+        public static string A1_GetListRange(string list, string range) => string.Format("{0}!{1}", list, range);
+        public static string A1_GetListRange(string list, string rangeStart, string rangeEnd) => A1_GetListRange(list, string.Format("{0}:{1}", rangeStart, rangeEnd));
 
 
         private SubjectGoalPair mSelectedSubjectGoal = null;
@@ -94,13 +100,7 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
-        private ObservableCollection<SubjectGoalPair> mSubjectGoalList = new ObservableCollection<SubjectGoalPair>(
-        //    new List<SubjectGoalPair>(){
-        //    new SubjectGoalPair("Subject", "Goal"),
-        //    new SubjectGoalPair("Subject", "Goal"),
-        //    new SubjectGoalPair("Subject", "Goal"),
-        //}
-            );
+        private ObservableCollection<SubjectGoalPair> mSubjectGoalList = new ObservableCollection<SubjectGoalPair>();
         ///<summary>
         /// SubjectGoalList
         ///</summary>

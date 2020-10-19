@@ -12,6 +12,9 @@ using System.Windows.Input;
 
 namespace GoogleSchoolProjectManager.UI.ViewModel
 {
+    /// <summary>
+    /// FakeMainViewModel in which we can set UI settings for designer/test purposes
+    /// </summary>
     public class FakeMainViewModel : MainViewModel
     {
 		public FakeMainViewModel (IDialogCoordinator dialogCoordinator)

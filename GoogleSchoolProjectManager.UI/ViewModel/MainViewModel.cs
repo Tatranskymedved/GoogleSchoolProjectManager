@@ -138,7 +138,6 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
-
         private string mKHSRequestEditSubject = null;
         ///<summary>
         /// KHSRequestEditSubject
@@ -276,12 +275,16 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
-
         #endregion
 
         public MainViewModel(IDialogCoordinator dialogCoordinator)
         {
             DialogCoordinator = dialogCoordinator;
+
+            var sheetName = Properties.Settings.Default.KHSSheetName;
+            var a1_weekColumn = Properties.Settings.Default.KHS_A1_WeekColumn;
+            if (!string.IsNullOrEmpty(sheetName)) UpdateKHSRequest.SheetName = sheetName;
+            if (!string.IsNullOrEmpty(a1_weekColumn)) UpdateKHSRequest.A1_WeekColumn = a1_weekColumn;
         }
 
         #region [Commands]
@@ -374,7 +377,6 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
-
         private ICommand mCMD_GenerateFilesFromTemplate = null;
         private bool mIsExecutingCMD_GenerateFilesFromTemplate = false;
         ///<summary>
@@ -444,20 +446,34 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             {
                 if (mCMD_KHSRequest_UpdateSelectedKHSes != null) return mCMD_KHSRequest_UpdateSelectedKHSes;
 
-                mCMD_KHSRequest_UpdateSelectedKHSes = new RelayAsyncCommand(() =>
+                mCMD_KHSRequest_UpdateSelectedKHSes = new RelayAsyncCommand(async () =>
                 {
                     mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes = true;
+                    var dialog = await DialogCoordinator.ShowProgressAsync(this,
+                        Properties.Resources.DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title,
+                        Properties.Resources.DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message_Before,
+                        false);
+
                     try
                     {
                         UpdateKHSRequest.Files = Tree.FindAllFilesSelectedForUpdate();
                         using (var con = new GoogleConnector())
                         {
                             var manager = new GSheetsManager(con);
-                            manager.UpdateSheets(UpdateKHSRequest);
+
+                            manager.UpdateSheets(UpdateKHSRequest, (progress) =>
+                            {
+                                dialog.SetProgress(Math.Min(1, Math.Max(0, progress.Progress)));
+                                dialog.SetMessage(string.Format(Properties.Resources.DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message,
+                                    progress.FileIndex,
+                                    progress.FilesCount,
+                                    progress.FileName));
+                            });
                         }
                     }
                     finally
                     {
+                        await dialog.CloseAsync();
                         mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes = false;
                     }
                 },
@@ -481,9 +497,10 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 if (mCMD_CheckAllFiles_ForUpdate != null) return mCMD_CheckAllFiles_ForUpdate;
 
                 mCMD_CheckAllFiles_ForUpdate = new RelayCommand<bool>((checkIt) =>
-                {
-                    Tree.UpdateAllFiles(a => a.IsSelectedForUpdate = checkIt);
-                });
+                { 
+                    Tree.UpdateAllFilesInFolder((MainSelectedItem as GFolder), a => a.IsSelectedForUpdate = checkIt);
+                },
+                (checkIt) => MainSelectedItem?.IsGFolder ?? false);
 
                 return this.mCMD_CheckAllFiles_ForUpdate;
             }
@@ -530,6 +547,28 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 });
 
                 return this.mCMD_KHSRequest_RemoveSubjectGoal;
+            }
+        }
+
+        private ICommand mCMD_SelectMainFolderToggleChanged = null;
+        ///<summary>
+        /// CMD_SelectMainFolderToggleChanged
+        ///</summary>
+        public ICommand CMD_SelectMainFolderToggleChanged
+        {
+            get
+            {
+                if (mCMD_SelectMainFolderToggleChanged != null) return mCMD_SelectMainFolderToggleChanged;
+
+                mCMD_SelectMainFolderToggleChanged = new RelayCommand(() =>
+                {
+                    if(!IsFolderLocked)
+                    {
+                        Tree.UpdateAllFiles((a) => a.IsSelectedForUpdate = false);
+                    }
+                });
+
+                return this.mCMD_SelectMainFolderToggleChanged;
             }
         }
 

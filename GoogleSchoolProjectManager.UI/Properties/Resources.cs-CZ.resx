@@ -135,6 +135,9 @@
   <data name="CMD_CancelSelectedItem" xml:space="preserve">
     <value>Zrušir výběr</value>
   </data>
+  <data name="CMD_CheckAllFiles_ForUpdate" xml:space="preserve">
+    <value>Vybrat všechny KHSky k editaci</value>
+  </data>
   <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
     <value>Potvrdit výběr</value>
   </data>
@@ -146,6 +149,15 @@
     <value>Aktualizovat seznam</value>
     <comment>Command button, for downloading tree list</comment>
   </data>
+  <data name="CMD_KHSRequest_AddSubjectGoal" xml:space="preserve">
+    <value>Přidat předmět/cíl</value>
+  </data>
+  <data name="CMD_KHSRequest_RemoveSubjectGoal" xml:space="preserve">
+    <value>Odstranit vybraný předmět/cíl</value>
+  </data>
+  <data name="CMD_KHSRequest_UpdateSelectedKHSes" xml:space="preserve">
+    <value>Začít aktualizovat vybrané KHSky</value>
+  </data>
   <data name="CMD_SelectFileNamesSource" xml:space="preserve">
     <value>Select names for new files</value>
     <comment>Label on button to select names for new files</comment>
@@ -156,6 +168,9 @@
   </data>
   <data name="CMD_SelectMainFolder" xml:space="preserve">
     <value>Vybrat složku pro práci</value>
+  </data>
+  <data name="CMD_UnCheckAllFiles_ForUpdate" xml:space="preserve">
+    <value>Odvybrat všechny KHSky</value>
   </data>
   <data name="DatePicker_KHS_Label_SelectDateFrom" xml:space="preserve">
     <value>Od:</value>
@@ -192,19 +207,28 @@
     <value>Probíhá generování souborů ze šablony</value>
     <comment>Title of dialog that appears when files are being created</comment>
   </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message" xml:space="preserve">
+    <value>Právě upravuji ({0} z {1}): {2}</value>
+  </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message_Before" xml:space="preserve">
+    <value>Připravuji editaci a kontaktuji server</value>
+  </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title" xml:space="preserve">
+    <value>Úprava KHS</value>
+  </data>
   <data name="DIALOG_SelectItemFromTree_Title" xml:space="preserve">
     <value>Vyberte soubor/složku</value>
   </data>
   <data name="GROUP_HEADER_FileNamesResult" xml:space="preserve">
-    <value>Výsledný seznam souborů s pre/postfixem</value>
+    <value>Výsledné soubory</value>
     <comment>Groupbox header: Result list of file names with pre/postfix</comment>
   </data>
   <data name="GROUP_HEADER_FileNamesSource" xml:space="preserve">
-    <value>Jména souborů rozděleny pomocí mezer/čárek/omezovačů</value>
+    <value>Zdroj názvů pro soubory</value>
     <comment>Groupbox header: Name of files splitted by new line/quotta/separators</comment>
   </data>
   <data name="GROUP_HEADER_GeneratingFiles" xml:space="preserve">
-    <value>Generuji soubory</value>
+    <value>Generování souborů</value>
     <comment>Groupbox header: Generating files</comment>
   </data>
   <data name="GROUP_HEADER_KHSUpdate" xml:space="preserve">
@@ -214,6 +238,12 @@
   <data name="GROUP_HEADER_SubjectsAndGoals" xml:space="preserve">
     <value>Předměty a Cíle</value>
     <comment>Groupbox header: Subjects and goals</comment>
+  </data>
+  <data name="GROUP_TOOLTIP_FileNamesResult" xml:space="preserve">
+    <value>Výsledný seznam souborů s pre/postfixem, které se vytvoří na disku</value>
+  </data>
+  <data name="GROUP_TOOLTIP_FileNamesSource" xml:space="preserve">
+    <value>Zdroj názvů pro soubory - list jmen rozdělen na více řádků nebo pomocí oddělovačů ( , ; | )</value>
   </data>
   <data name="KHSRequest_Label_Goal" xml:space="preserve">
     <value>Cíl:</value>

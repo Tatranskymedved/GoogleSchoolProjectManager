@@ -136,6 +136,9 @@
   <data name="CMD_CancelSelectedItem" xml:space="preserve">
     <value>Cancel selection</value>
   </data>
+  <data name="CMD_CheckAllFiles_ForUpdate" xml:space="preserve">
+    <value>Check all KHSes</value>
+  </data>
   <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
     <value>Confirm selection</value>
   </data>
@@ -147,6 +150,15 @@
     <value>Refresh</value>
     <comment>Command button, for downloading tree list</comment>
   </data>
+  <data name="CMD_KHSRequest_AddSubjectGoal" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="CMD_KHSRequest_RemoveSubjectGoal" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="CMD_KHSRequest_UpdateSelectedKHSes" xml:space="preserve">
+    <value>Start updating KHSes</value>
+  </data>
   <data name="CMD_SelectFileNamesSource" xml:space="preserve">
     <value>Select names for new files</value>
     <comment>Label on button to select names for new files</comment>
@@ -157,6 +169,9 @@
   </data>
   <data name="CMD_SelectMainFolder" xml:space="preserve">
     <value>Select main folder</value>
+  </data>
+  <data name="CMD_UnCheckAllFiles_ForUpdate" xml:space="preserve">
+    <value>Uncheck all KHSes</value>
   </data>
   <data name="DatePicker_KHS_Label_SelectDateFrom" xml:space="preserve">
     <value>From:</value>
@@ -193,15 +208,24 @@
     <value>Generating files from template</value>
     <comment>Title of dialog that appears when files are being created</comment>
   </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message" xml:space="preserve">
+    <value>Currently updating ({0} of {1}): {2}</value>
+  </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message_Before" xml:space="preserve">
+    <value>Preparing for update &amp; contacting server</value>
+  </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title" xml:space="preserve">
+    <value>Updating KHSes</value>
+  </data>
   <data name="DIALOG_SelectItemFromTree_Title" xml:space="preserve">
     <value>SELECT FILE/FOLDER</value>
   </data>
   <data name="GROUP_HEADER_FileNamesResult" xml:space="preserve">
-    <value>Result list of file names with pre/postfix</value>
+    <value>Result file names</value>
     <comment>Groupbox header: Result list of file names with pre/postfix</comment>
   </data>
   <data name="GROUP_HEADER_FileNamesSource" xml:space="preserve">
-    <value>Name of files splitted by new line/quotta/separators</value>
+    <value>Source of file names</value>
     <comment>Groupbox header: Name of files splitted by new line/quotta/separators</comment>
   </data>
   <data name="GROUP_HEADER_GeneratingFiles" xml:space="preserve">
@@ -215,6 +239,12 @@
   <data name="GROUP_HEADER_SubjectsAndGoals" xml:space="preserve">
     <value>Subjects and Goals</value>
     <comment>Groupbox header: Subjects and goals</comment>
+  </data>
+  <data name="GROUP_TOOLTIP_FileNamesResult" xml:space="preserve">
+    <value>Result list of file names with pre/postfix, which will be created on Google Drive</value>
+  </data>
+  <data name="GROUP_TOOLTIP_FileNamesSource" xml:space="preserve">
+    <value>Source of file names which should be splitted into several lines or by separators ( , ; | )</value>
   </data>
   <data name="KHSRequest_Label_Goal" xml:space="preserve">
     <value>Goal:</value>

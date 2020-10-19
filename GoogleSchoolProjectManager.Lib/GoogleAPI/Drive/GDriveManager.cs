@@ -28,6 +28,8 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             }
         }
 
+        public bool Trashed { get; set; } = false;
+
         public GDriveManager(GoogleConnector connector)
         {
             this.Service = connector.Drive;
@@ -62,6 +64,10 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
                 }
 
                 fileListRequest.Fields = "files(teamDriveId, mimeType, name, id, parents)";
+                if (!Trashed)
+                {
+                    fileListRequest.Q = "trashed: false";
+                }
                 fileListRequest.PageSize = 1000;
 
                 FileList fileListResult = default(FileList);

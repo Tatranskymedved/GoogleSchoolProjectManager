@@ -8,5 +8,11 @@
     <Setting Name="GoogleDiskDrive" Type="System.String" Scope="User">
       <Value Profile="(Default)">OSTODISK</Value>
     </Setting>
+    <Setting Name="KHSSheetName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">CÍLE</Value>
+    </Setting>
+    <Setting Name="KHS_A1_WeekColumn" Type="System.String" Scope="User">
+      <Value Profile="(Default)">B4:B</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -77,10 +77,16 @@
     <Compile Include="GoogleAPI\Drive\GTree.cs" />
     <Compile Include="GoogleAPI\Drive\MimeTypes.cs" />
     <Compile Include="GoogleAPI\GoogleConnector.cs" />
+    <Compile Include="GoogleAPI\Sheets\DateRange.cs" />
+    <Compile Include="GoogleAPI\Sheets\GRange.cs" />
+    <Compile Include="GoogleAPI\Sheets\GCell.cs" />
+    <Compile Include="GoogleAPI\Sheets\GUpdateBorders.cs" />
+    <Compile Include="GoogleAPI\Sheets\GSheetReply.cs" />
     <Compile Include="GoogleAPI\Sheets\GSheetsManager.cs" />
     <Compile Include="GoogleAPI\Sheets\KHSWeekSubjectGoalReply.cs" />
     <Compile Include="GoogleAPI\Sheets\UpdateKHSRequest.cs" />
     <Compile Include="GoogleAPI\Test\FakeGTree.cs" />
+    <Compile Include="ProgressInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@
                  dialog:DialogParticipation.Register="{Binding}"
 
                  mc:Ignorable="d"
-                 Title="{x:Static p:Resources.APP_Title}"
+                 Title="{Binding Title}"
                  Height="600"
                  Width="800"
                  

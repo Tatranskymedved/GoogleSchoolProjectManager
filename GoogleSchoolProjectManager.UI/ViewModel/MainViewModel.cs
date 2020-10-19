@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -276,6 +277,24 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
+
+        private string mTitle = null;
+        ///<summary>
+        /// Title
+        ///</summary>
+        public string Title
+        {
+            get { return this.mTitle; }
+            set
+            {
+                if (value == this.mTitle) return;
+
+                this.mTitle = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+
         #endregion
 
         public MainViewModel(IDialogCoordinator dialogCoordinator)
@@ -286,6 +305,9 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             var a1_weekColumn = Properties.Settings.Default.KHS_A1_WeekColumn;
             if (!string.IsNullOrEmpty(sheetName)) UpdateKHSRequest.SheetName = sheetName;
             if (!string.IsNullOrEmpty(a1_weekColumn)) UpdateKHSRequest.A1_WeekColumn = a1_weekColumn;
+
+            var version = Assembly.GetExecutingAssembly()?.GetName()?.Version;
+            Title = Properties.Resources.APP_Title + $" - {version.Major}.{version.Minor}";
         }
 
         #region [Commands]

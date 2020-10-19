@@ -17,11 +17,11 @@
 
                  mc:Ignorable="d"
                  Title="{x:Static p:Resources.APP_Title}"
-                 Height="800"
-                 Width="1200"
+                 Height="600"
+                 Width="800"
                  
-                 MinHeight="768"
-                 MinWidth="1024"
+                 MinHeight="600"
+                 MinWidth="800"
                  >
     <Window.Resources>
         <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
@@ -46,7 +46,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
-                <RowDefinition Height="3*"/>
+                <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -57,6 +57,7 @@
             <GroupBox Grid.Column="0" Grid.Row="1" Grid.RowSpan="10" Header="{x:Static p:Resources.APP_GoogleDriveFolderFileList}" Margin="1">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MaxHeight="35"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
@@ -65,7 +66,18 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TreeView Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                    <Grid Grid.ColumnSpan="2" IsEnabled="{Binding IsFolderLocked, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Content="{x:Static p:Resources.CMD_ExpandAll}" Margin="3" Click="Btn_ExpandAll_Click"/>
+                        <Button Grid.Column="1" Content="{x:Static p:Resources.CMD_ShrinkAll}" Margin="3" Click="Btn_ShrinkAll_Click"/>
+                    </Grid>
+                    <TreeView x:Name="mainTreeView"
+                              Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
                               ItemsSource="{Binding Tree.Items}"
                               IsEnabled="{Binding Path=IsFolderLocked, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}">
                         <microsoftBehavior:Interaction.Behaviors>
@@ -73,7 +85,7 @@
                         </microsoftBehavior:Interaction.Behaviors>
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="{x:Type TreeViewItem}">
-                                <Setter Property="IsExpanded" Value="True"/>
+                                <Setter Property="IsExpanded" Value="False"/>
                             </Style>
                         </TreeView.ItemContainerStyle>
                         <TreeView.ItemTemplate>
@@ -93,24 +105,36 @@
                         </TreeView.ItemTemplate>
                     </TreeView>
 
-                    <Button Grid.Column="0" Grid.Row="1" Command="{Binding CMD_GetFolderTree}" Content="{x:Static p:Resources.CMD_GetFolderTree}" Margin="3" 
+                    <Button Grid.Column="0" Grid.Row="2" Command="{Binding CMD_GetFolderTree}" Content="{x:Static p:Resources.CMD_GetFolderTree}" Margin="3" 
                             IsEnabled="{Binding IsFolderLocked, Mode=OneWay, Converter={StaticResource InverseBooleanConverter}}"/>
-                    <ToggleButton Grid.Column="1" Grid.Row="1" Margin="3"
+                    <ToggleButton Grid.Column="1" Grid.Row="2" Margin="3"
                                   Command="{Binding CMD_SelectMainFolderToggleChanged}"
                                   IsEnabled="{Binding IsFolderSelected, Mode=OneWay}"
-                                  IsChecked="{Binding IsFolderLocked}"
-                                  Content="{x:Static p:Resources.CMD_SelectMainFolder}"/>
+                                  IsChecked="{Binding IsFolderLocked}">
+                        <ToggleButton.Style>
+                            <Style TargetType="{x:Type ToggleButton}">
+                                <Setter Property="IsChecked" Value="True"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsChecked" Value="True">
+                                        <Setter Property="Content" Value="{x:Static p:Resources.CMD_SelectMainFolder_Checked}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsChecked" Value="False">
+                                        <Setter Property="Content" Value="{x:Static p:Resources.CMD_SelectMainFolder_Unchecked}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ToggleButton.Style>
+                    </ToggleButton>
                 </Grid>
             </GroupBox>
 
             <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static p:Resources.GROUP_HEADER_GeneratingFiles}" Margin="1" IsEnabled="{Binding IsFolderLocked, Mode=OneWay}">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" MaxHeight="35"/>
-                        <RowDefinition Height="*" MaxHeight="35"/>
-                        <RowDefinition Height="*" MaxHeight="35"/>
-                        <RowDefinition Height="*" MaxHeight="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
                         <!--<RowDefinition Height="*" MaxHeight="35"/>-->
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -139,7 +163,7 @@
                         <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding GenerateFilesFromTemplatePostfix, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,5,2"/>
                     </Grid>
 
-                    <Button Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Margin="3"
+                    <Button Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Grid.RowSpan="2"
                             Command="{Binding CMD_GenerateFilesFromTemplate}"
                             Content="{x:Static p:Resources.CMD_GenerateFilesFromTemplate}"/>
 
@@ -191,9 +215,9 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="2*" MaxHeight="70"/>
-                                <RowDefinition Height="2*" MaxHeight="35" />
-                                <RowDefinition Height="4*" />
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
@@ -229,7 +253,6 @@
                                     <DataTemplate>
                                         <StackPanel>
                                             <TextBlock Text="{Binding Subject}" FontWeight="Bold"/>
-                                            <Separator />
                                             <TextBlock Text="{Binding Goal}"/>
                                         </StackPanel>
                                     </DataTemplate>

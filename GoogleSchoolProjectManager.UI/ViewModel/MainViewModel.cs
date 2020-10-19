@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -316,9 +317,16 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                             Tree = new GDriveManager(con) { DriveName = diskName }.GetTree();
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        await DialogCoordinator.ShowMessageAsync(this,
+                            Properties.Resources.Dialog_ExceptionOccurs_Title,
+                            ex.Message + Environment.NewLine + Environment.NewLine + ex.ToString() + Environment.NewLine + ex.StackTrace,
+                            MessageDialogStyle.Affirmative);
+                    }
                     finally
                     {
-                        await dialog.CloseAsync();
+                        dialog.CloseAsync();
                         mIsExecutingCMD_GetFolderTree = false;
                     }
                 },
@@ -391,10 +399,34 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 mCMD_GenerateFilesFromTemplate = new RelayAsyncCommand(async () =>
                 {
                     mIsExecutingCMD_GenerateFilesFromTemplate = true;
+
+                    var dialogResult = await DialogCoordinator.ShowMessageAsync(this,
+                        Properties.Resources.DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Title,
+                        Properties.Resources.DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Message,
+                        MessageDialogStyle.AffirmativeAndNegative,
+                        new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = Properties.Resources.Button_Yes,
+                            NegativeButtonText = Properties.Resources.Button_No
+                        });
+
+                    if (dialogResult == MessageDialogResult.Canceled || dialogResult == MessageDialogResult.Negative)
+                    {
+                        mIsExecutingCMD_GenerateFilesFromTemplate = false;
+                        return;
+                    }
+
+                    var cancelToken = new CancellationToken();
+
                     var dialog = await DialogCoordinator.ShowProgressAsync(this,
                         Properties.Resources.DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title,
                         Properties.Resources.DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message_Before,
-                        false);
+                        true,
+                        new MetroDialogSettings()
+                        {
+                            CancellationToken = cancelToken,
+                            DialogResultOnCancel = MessageDialogResult.Canceled
+                        });
 
                     try
                     {
@@ -404,6 +436,8 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                             var nameList = FileNamesList.ToList();
                             for (int i = 0; i < nameList.Count; i++)
                             {
+                                if (cancelToken.IsCancellationRequested) break;
+
                                 var fileName = nameList[i];
 
                                 double progress = i / Convert.ToDouble(nameList.Count);
@@ -417,9 +451,16 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                             }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        await DialogCoordinator.ShowMessageAsync(this,
+                            Properties.Resources.Dialog_ExceptionOccurs_Title,
+                            ex.Message + Environment.NewLine + Environment.NewLine + ex.ToString() + Environment.NewLine + ex.StackTrace,
+                            MessageDialogStyle.Affirmative);
+                    }
                     finally
                     {
-                        await dialog.CloseAsync();
+                        dialog.CloseAsync();
                         mIsExecutingCMD_GenerateFilesFromTemplate = false;
                     }
                 },
@@ -449,10 +490,34 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 mCMD_KHSRequest_UpdateSelectedKHSes = new RelayAsyncCommand(async () =>
                 {
                     mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes = true;
+
+                    var dialogResult = await DialogCoordinator.ShowMessageAsync(this,
+                        Properties.Resources.DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Title,
+                        Properties.Resources.DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Message,
+                        MessageDialogStyle.AffirmativeAndNegative,
+                        new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = Properties.Resources.Button_Yes,
+                            NegativeButtonText = Properties.Resources.Button_No
+                        });
+
+                    if (dialogResult == MessageDialogResult.Canceled || dialogResult == MessageDialogResult.Negative)
+                    {
+                        mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes = false;
+                        return;
+                    }
+
+                    var cancelToken = new CancellationToken();
+
                     var dialog = await DialogCoordinator.ShowProgressAsync(this,
                         Properties.Resources.DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title,
                         Properties.Resources.DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message_Before,
-                        false);
+                        true,
+                        new MetroDialogSettings()
+                        {
+                            CancellationToken = cancelToken,
+                            DialogResultOnCancel = MessageDialogResult.Canceled
+                        });
 
                     try
                     {
@@ -468,12 +533,19 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                                     progress.FileIndex,
                                     progress.FilesCount,
                                     progress.FileName));
-                            });
+                            }, cancelToken);
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        await DialogCoordinator.ShowMessageAsync(this,
+                            Properties.Resources.Dialog_ExceptionOccurs_Title,
+                            ex.Message + Environment.NewLine + Environment.NewLine + ex.ToString() + Environment.NewLine + ex.StackTrace,
+                            MessageDialogStyle.Affirmative);
                     }
                     finally
                     {
-                        await dialog.CloseAsync();
+                        dialog.CloseAsync();
                         mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes = false;
                     }
                 },
@@ -497,7 +569,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 if (mCMD_CheckAllFiles_ForUpdate != null) return mCMD_CheckAllFiles_ForUpdate;
 
                 mCMD_CheckAllFiles_ForUpdate = new RelayCommand<bool>((checkIt) =>
-                { 
+                {
                     Tree.UpdateAllFilesInFolder((MainSelectedItem as GFolder), a => a.IsSelectedForUpdate = checkIt);
                 },
                 (checkIt) => MainSelectedItem?.IsGFolder ?? false);
@@ -562,7 +634,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 
                 mCMD_SelectMainFolderToggleChanged = new RelayCommand(() =>
                 {
-                    if(!IsFolderLocked)
+                    if (!IsFolderLocked)
                     {
                         Tree.UpdateAllFiles((a) => a.IsSelectedForUpdate = false);
                     }
@@ -571,6 +643,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 return this.mCMD_SelectMainFolderToggleChanged;
             }
         }
+
 
         #endregion
 

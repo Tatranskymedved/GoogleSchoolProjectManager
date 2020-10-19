@@ -5,6 +5,7 @@ using GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace GoogleSchoolProjectManager.Lib.Google
 {
@@ -117,7 +118,7 @@ namespace GoogleSchoolProjectManager.Lib.Google
             return result;
         }
 
-        public void UpdateSheets(UpdateKHSRequest khsRequest, Action<ProgressInfo> updateProgress)
+        public void UpdateSheets(UpdateKHSRequest khsRequest, Action<ProgressInfo> updateProgress, CancellationToken cancelToken)
         {
             if (khsRequest == null) throw new ArgumentNullException(nameof(khsRequest));
 
@@ -135,6 +136,8 @@ namespace GoogleSchoolProjectManager.Lib.Google
 
             for (int i = 0; i < khsRequest.Files.Count; i++)
             {
+                if (cancelToken.IsCancellationRequested) return;
+
                 var gFile = khsRequest.Files[i];
                 updateProgress(new ProgressInfo() { FileName = gFile.Name, FileIndex = i + 1, FilesCount = khsRequest.Files.Count, Progress = (i / (float)khsRequest.Files.Count) });
 

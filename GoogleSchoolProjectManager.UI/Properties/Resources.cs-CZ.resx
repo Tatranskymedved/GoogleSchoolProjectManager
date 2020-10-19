@@ -132,6 +132,12 @@
   <data name="APP_Title" xml:space="preserve">
     <value>Generátor tabulek Google</value>
   </data>
+  <data name="Button_No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="Button_Yes" xml:space="preserve">
+    <value>Ano</value>
+  </data>
   <data name="CMD_CancelSelectedItem" xml:space="preserve">
     <value>Zrušir výběr</value>
   </data>
@@ -140,6 +146,9 @@
   </data>
   <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
     <value>Potvrdit výběr</value>
+  </data>
+  <data name="CMD_ExpandAll" xml:space="preserve">
+    <value>Rozbalit vše</value>
   </data>
   <data name="CMD_GenerateFilesFromTemplate" xml:space="preserve">
     <value>Generovat soubor ze šablony</value>
@@ -166,8 +175,14 @@
     <value>Vybrat soubor pro šablonu</value>
     <comment>Label on button to select template file</comment>
   </data>
-  <data name="CMD_SelectMainFolder" xml:space="preserve">
+  <data name="CMD_SelectMainFolder_Checked" xml:space="preserve">
+    <value>Zrušit výběr složky pro práci</value>
+  </data>
+  <data name="CMD_SelectMainFolder_Unchecked" xml:space="preserve">
     <value>Vybrat složku pro práci</value>
+  </data>
+  <data name="CMD_ShrinkAll" xml:space="preserve">
+    <value>Sbalit vše</value>
   </data>
   <data name="CMD_UnCheckAllFiles_ForUpdate" xml:space="preserve">
     <value>Odvybrat všechny KHSky</value>
@@ -196,6 +211,17 @@
     <value>Probíhá aktualizace</value>
     <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
   </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Message" xml:space="preserve">
+    <value>Zkontrolovali jste všechny soubory, které budou generované?
+Co jejich názvy?
+Mezery před/za/mezi?
+Používáte jména lidí? Je lepší první jméno nebo příjmení (třeba kvůli řazení)?
+
+Pokud jste spokojeni, chcete spustit generování?</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Title" xml:space="preserve">
+    <value>Generování/kopírování souborů</value>
+  </data>
   <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message" xml:space="preserve">
     <value>Právě generuji ({0} z {1}): {2}</value>
     <comment>Message of dialog taht appears when fiels are being created</comment>
@@ -207,6 +233,17 @@
     <value>Probíhá generování souborů ze šablony</value>
     <comment>Title of dialog that appears when files are being created</comment>
   </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Message" xml:space="preserve">
+    <value>Změnili jste datum (od,do)?
+Vybrali jste všechny KHSky, které budete chtít aktualizovat a odvybrali ty, které ne?
+Vybrali jste všechny předměty a cíle?
+Chcete vložit i prázdné řádky? A vložili jste je do seznamu?
+
+Pokud je všechno správně nastaveno, chcete pokračovat v editaci všech vybraných KHSek?</value>
+  </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Title" xml:space="preserve">
+    <value>Úpravy KHSek</value>
+  </data>
   <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message" xml:space="preserve">
     <value>Právě upravuji ({0} z {1}): {2}</value>
   </data>
@@ -215,6 +252,9 @@
   </data>
   <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title" xml:space="preserve">
     <value>Úprava KHS</value>
+  </data>
+  <data name="Dialog_ExceptionOccurs_Title" xml:space="preserve">
+    <value>Nastala chyba! Prosím kontaktujte admina</value>
   </data>
   <data name="DIALOG_SelectItemFromTree_Title" xml:space="preserve">
     <value>Vyberte soubor/složku</value>

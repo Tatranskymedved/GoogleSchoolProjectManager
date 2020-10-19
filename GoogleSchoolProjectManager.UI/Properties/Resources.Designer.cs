@@ -97,6 +97,24 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string Button_No {
+            get {
+                return ResourceManager.GetString("Button_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Button_Yes {
+            get {
+                return ResourceManager.GetString("Button_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel selection.
         /// </summary>
         public static string CMD_CancelSelectedItem {
@@ -120,6 +138,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string CMD_ConfirmSelectedItem {
             get {
                 return ResourceManager.GetString("CMD_ConfirmSelectedItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand all.
+        /// </summary>
+        public static string CMD_ExpandAll {
+            get {
+                return ResourceManager.GetString("CMD_ExpandAll", resourceCulture);
             }
         }
         
@@ -187,11 +214,29 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De-select main folder.
+        /// </summary>
+        public static string CMD_SelectMainFolder_Checked {
+            get {
+                return ResourceManager.GetString("CMD_SelectMainFolder_Checked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select main folder.
         /// </summary>
-        public static string CMD_SelectMainFolder {
+        public static string CMD_SelectMainFolder_Unchecked {
             get {
-                return ResourceManager.GetString("CMD_SelectMainFolder", resourceCulture);
+                return ResourceManager.GetString("CMD_SelectMainFolder_Unchecked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shrink all.
+        /// </summary>
+        public static string CMD_ShrinkAll {
+            get {
+                return ResourceManager.GetString("CMD_ShrinkAll", resourceCulture);
             }
         }
         
@@ -241,6 +286,28 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Have you checked all the files that will be generated? Are you happy with that?
+        ///What about spaces before/after?
+        ///Are you using names of people? Do you want to be name or surname to be first?
+        ///
+        ///If all this is ok, would you like to proceed with generating files?.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Message {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to generate files?.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Title {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Currently generating ({0} of {1}): {2}.
         /// </summary>
         public static string DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message {
@@ -264,6 +331,29 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title {
             get {
                 return ResourceManager.GetString("DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Have you updated date range?
+        ///Have selected all KHSes that should&apos;v been updated &amp; ignored the ones you don&apos;t want to update?
+        ///Have you entered all subjects with goals?
+        ///Do you want some empty lines in the end?
+        ///
+        ///If everthing is OK, do you want to continue with editing?.
+        /// </summary>
+        public static string DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Message {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to start updating KHSes?.
+        /// </summary>
+        public static string DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Title {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Title", resourceCulture);
             }
         }
         
@@ -309,6 +399,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string DIALOG_CMDGetFolderTree_PROGRESS_Title {
             get {
                 return ResourceManager.GetString("DIALOG_CMDGetFolderTree_PROGRESS_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error occurs! Please contact admin with screenshot.
+        /// </summary>
+        public static string Dialog_ExceptionOccurs_Title {
+            get {
+                return ResourceManager.GetString("Dialog_ExceptionOccurs_Title", resourceCulture);
             }
         }
         

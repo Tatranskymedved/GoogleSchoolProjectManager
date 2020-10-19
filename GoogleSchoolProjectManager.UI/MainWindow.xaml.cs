@@ -67,5 +67,42 @@ namespace GoogleSchoolProjectManager.UI
 
             return null;
         }
+
+        private void Btn_ExpandAll_Click(object sender, RoutedEventArgs e)
+        {
+            treeViewSetIsExpended(true);
+        }
+        private void Btn_ShrinkAll_Click(object sender, RoutedEventArgs e)
+        {
+            treeViewSetIsExpended(false);
+        }
+
+        private void SetIsExpandedForAllItems(ItemsControl items, bool isExpanded)
+        {
+            foreach (object obj in items?.Items)
+            {
+                var childControl = items?.ItemContainerGenerator?.ContainerFromItem(obj) as ItemsControl;
+                if (childControl != null)
+                {
+                    SetIsExpandedForAllItems(childControl, isExpanded);
+                }
+                var item = childControl as TreeViewItem;
+                if (item != null)
+                    item.IsExpanded = true;
+            }
+        }
+
+        private void treeViewSetIsExpended(bool isExpanded)
+        {
+            foreach (object item in mainTreeView?.Items)
+            {
+                var treeItem = this.mainTreeView?.ItemContainerGenerator?.ContainerFromItem(item) as TreeViewItem;
+                if (treeItem != null)
+                {
+                    SetIsExpandedForAllItems(treeItem, isExpanded);
+                    treeItem.IsExpanded = isExpanded;
+                }
+            }
+        }
     }
 }

@@ -133,6 +133,12 @@
     <value>App Title</value>
     <comment>Application title</comment>
   </data>
+  <data name="Button_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Button_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
   <data name="CMD_CancelSelectedItem" xml:space="preserve">
     <value>Cancel selection</value>
   </data>
@@ -141,6 +147,9 @@
   </data>
   <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
     <value>Confirm selection</value>
+  </data>
+  <data name="CMD_ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
   </data>
   <data name="CMD_GenerateFilesFromTemplate" xml:space="preserve">
     <value>Generate files from template</value>
@@ -167,8 +176,14 @@
     <value>Select template file</value>
     <comment>Label on button to select template file</comment>
   </data>
-  <data name="CMD_SelectMainFolder" xml:space="preserve">
+  <data name="CMD_SelectMainFolder_Checked" xml:space="preserve">
+    <value>De-select main folder</value>
+  </data>
+  <data name="CMD_SelectMainFolder_Unchecked" xml:space="preserve">
     <value>Select main folder</value>
+  </data>
+  <data name="CMD_ShrinkAll" xml:space="preserve">
+    <value>Shrink all</value>
   </data>
   <data name="CMD_UnCheckAllFiles_ForUpdate" xml:space="preserve">
     <value>Uncheck all KHSes</value>
@@ -197,6 +212,16 @@
     <value>Download in progress</value>
     <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
   </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Message" xml:space="preserve">
+    <value>Have you checked all the files that will be generated? Are you happy with that?
+What about spaces before/after?
+Are you using names of people? Do you want to be name or surname to be first?
+
+If all this is ok, would you like to proceed with generating files?</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Title" xml:space="preserve">
+    <value>Do you really want to generate files?</value>
+  </data>
   <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message" xml:space="preserve">
     <value>Currently generating ({0} of {1}): {2}</value>
     <comment>Message of dialog taht appears when fiels are being created</comment>
@@ -208,6 +233,17 @@
     <value>Generating files from template</value>
     <comment>Title of dialog that appears when files are being created</comment>
   </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Message" xml:space="preserve">
+    <value>Have you updated date range?
+Have selected all KHSes that should'v been updated &amp; ignored the ones you don't want to update?
+Have you entered all subjects with goals?
+Do you want some empty lines in the end?
+
+If everthing is OK, do you want to continue with editing?</value>
+  </data>
+  <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_BEFORE_Title" xml:space="preserve">
+    <value>Do you really want to start updating KHSes?</value>
+  </data>
   <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Message" xml:space="preserve">
     <value>Currently updating ({0} of {1}): {2}</value>
   </data>
@@ -216,6 +252,9 @@
   </data>
   <data name="DIALOG_CMD_KHSRequest_UpdateSelectedKHSes_PROGRESS_Title" xml:space="preserve">
     <value>Updating KHSes</value>
+  </data>
+  <data name="Dialog_ExceptionOccurs_Title" xml:space="preserve">
+    <value>Error occurs! Please contact admin with screenshot</value>
   </data>
   <data name="DIALOG_SelectItemFromTree_Title" xml:space="preserve">
     <value>SELECT FILE/FOLDER</value>

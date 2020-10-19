@@ -63,12 +63,12 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
                     fileListRequest.IncludeItemsFromAllDrives = true;
                 }
 
-                fileListRequest.Fields = "files(teamDriveId, mimeType, name, id, parents)";
+                fileListRequest.Fields = "nextPageToken, files(teamDriveId, mimeType, name, id, parents)";
                 if (!Trashed)
                 {
                     fileListRequest.Q = "trashed: false";
                 }
-                fileListRequest.PageSize = 1000;
+                fileListRequest.PageSize = 500;
 
                 FileList fileListResult = default(FileList);
                 do

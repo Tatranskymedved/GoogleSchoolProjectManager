@@ -143,12 +143,8 @@ namespace GoogleSchoolProjectManager.Lib.Google
 
                 try
                 {
-
-                    //var sheetId = Service.Spreadsheets.Get(a?.FileInfo?.Id).Execute();
-
                     // Define request parameters.
                     var spreadsheetId = gFile?.FileInfo?.Id;
-                    //var sheetId = "1UP2JrDkAeitSo6jBzskaKNU6d6D9Hdv_XkdxQv-rw_Q";
                     var worksheetInfo = this.GetKHSWeekBlocks(spreadsheetId, khsRequest.SheetName);
                     var blocks = worksheetInfo.Blocks;
 
@@ -163,128 +159,95 @@ namespace GoogleSchoolProjectManager.Lib.Google
                     var batchRequest = new BatchUpdateSpreadsheetRequest()
                     {
                         Requests = new List<Request>()
-                    {
-                        new Request()
                         {
-                            UpdateCells = new UpdateCellsRequest()
+                            new Request()
                             {
-                                Start = new GridCoordinate()
+                                UpdateCells = new UpdateCellsRequest()
                                 {
-                                    SheetId = worksheetInfo.SheetId,
-                                    RowIndex = firstNewWeekRow,
-                                    ColumnIndex = 1
-                                },
-                                Fields = "userEnteredValue.stringValue"
-                                        +",userEnteredFormat.textFormat.bold"
-                                        ,
-                                //Fields = "effectiveFormat.wrapStrategy" +
-                                //        ",userEnteredValue.stringValue",
-                                Rows = requestBatchUpdate_AddData
-                            }
-                        },
-                        new Request()
-                        {
-                            MergeCells = new MergeCellsRequest()
-                            {
-                                MergeType = "MERGE_ALL",
-                                Range = new GridRange()
-                                {
-                                    SheetId = worksheetInfo.SheetId,
-                                    StartRowIndex = firstNewWeekRow,
-                                    EndRowIndex = lastNewWeekRow,
-                                    StartColumnIndex = 1,
-                                    EndColumnIndex = 2
-                                }
-                            }
-                        },
-                        new Request()
-                        {
-                            UpdateCells = new UpdateCellsRequest()
-                            {
-                                Start = new GridCoordinate()
-                                {
-                                    SheetId = worksheetInfo.SheetId,
-                                    RowIndex = firstNewWeekRow,
-                                    ColumnIndex = 1
-                                },
-                                Fields = "userEnteredFormat.wrapStrategy"
-                                       +",userEnteredFormat.textRotation.vertical"
-                                       //+",userEnteredFormat.textRotation.angle" //Must be sent in next request
-                                       +",userEnteredFormat.verticalAlignment"
-                                       +",userEnteredFormat.horizontalAlignment"
-                                       +",userEnteredFormat.textFormat.bold"
-                                       +",userEnteredFormat.textFormat.fontSize",
-                                Rows = new List<RowData>() {
-                                    new RowData()
+                                    Start = new GridCoordinate()
                                     {
-                                        Values = new List<CellData>()
-                                        {
-                                            new CellData() { UserEnteredFormat = new CellFormat()
-                                            {
-                                                WrapStrategy = "WRAP",
-                                                TextRotation = new TextRotation()
-                                                {
-                                                    Vertical = true
-                                                },
-                                                VerticalAlignment = "MIDDLE",
-                                                HorizontalAlignment = "CENTER",
-                                                TextFormat = new TextFormat()
-                                                {
-                                                    Bold = true,
-                                                    FontSize = 8,
-                                                }
-                                            } }
-                                        }
+                                        SheetId = worksheetInfo.SheetId,
+                                        RowIndex = firstNewWeekRow,
+                                        ColumnIndex = 1
+                                    },
+                                    Fields = "userEnteredValue.stringValue"
+                                            +",userEnteredFormat.textFormat.bold"
+                                            ,
+                                    //Fields = "effectiveFormat.wrapStrategy" +
+                                    //        ",userEnteredValue.stringValue",
+                                    Rows = requestBatchUpdate_AddData
+                                }
+                            },
+                            new Request()
+                            {
+                                MergeCells = new MergeCellsRequest()
+                                {
+                                    MergeType = "MERGE_ALL",
+                                    Range = new GridRange()
+                                    {
+                                        SheetId = worksheetInfo.SheetId,
+                                        StartRowIndex = firstNewWeekRow,
+                                        EndRowIndex = lastNewWeekRow,
+                                        StartColumnIndex = 1,
+                                        EndColumnIndex = 2
                                     }
                                 }
-                            }
-                        },
-                        new Request()
-                        {
-                            UpdateCells = new UpdateCellsRequest()
-                            {
-                                Start = new GridCoordinate()
+                            },
+                            GCellRequestFactory.GenerateRepeatCellRequest( //Update date in first column (rotation is split to 2 requests)
+                                new GCoordinate(worksheetInfo.SheetId, firstNewWeekRow, 1),
+                                new GRowList()
                                 {
-                                    SheetId = worksheetInfo.SheetId,
-                                    RowIndex = firstNewWeekRow,
-                                    ColumnIndex = 1
-                                },
-                                Fields = "userEnteredFormat.textRotation.angle",
-                                Rows = new List<RowData>() {
-                                    new RowData()
+                                    new GRow()
                                     {
-                                        Values = new List<CellData>()
-                                        {
-                                            new CellData() { UserEnteredFormat = new CellFormat()
-                                            {
-                                                TextRotation = new TextRotation()
-                                                {
-                                                    Angle = 90
-                                                }
-                                            } }
-                                        }
+                                        new GCell()
+                                            .AddFormat(GCellFormat.WrapStrategy, "WRAP")
+                                            .AddFormat(GCellFormat.TextRotationVertical, true)
+                                            .AddFormat(GCellFormat.VerticalAlignment, "MIDDLE")
+                                            .AddFormat(GCellFormat.HorizontalAlignment, "CENTER")
+                                            .AddFormat(GCellFormat.TextFormatBold, true)
+                                            .AddFormat(GCellFormat.TextFormatFontSize, 8)
                                     }
                                 }
-                            }
-                        },
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 2)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 2, 3)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 3, 4)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 5)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 5, 6)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 6, 7)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 7, 8)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 8, 9)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 9, 10)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 10, 11)),
-                        GUpdateBorders.GenerateRequest(GUpdateBordersType.InnerRows, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 11)),
-                        GCellRequestFactory.GenerateRepeactCellRequest(
-                            new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 9),
-                            new GCell()
-                                .AddFormat(GCellFormat.BackgroundColorRed, 1f)
-                                .AddFormat(GCellFormat.BackgroundColorGreen, 242/255f)
-                                .AddFormat(GCellFormat.BackgroundColorBlue, 204/255f)
-                                ),
+                            ),
+                            GCellRequestFactory.GenerateRepeatCellRequest( //Rotate date in first column
+                                new GCoordinate(worksheetInfo.SheetId, firstNewWeekRow, 1),
+                                new GRowList()
+                                {
+                                    new GRow()
+                                    {
+                                        new GCell()
+                                            .AddFormat(GCellFormat.TextRotationAngle, 90)
+                                    }
+                                }
+                            ),
+                            //Creates borders around added part, inner rows lines, inner columns lines
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 2)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 2, 3)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 3, 4)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 5)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 5, 6)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 6, 7)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 7, 8)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 8, 9)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 9, 10)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 10, 11)),
+                            GUpdateBorders.GenerateRequest(GUpdateBordersType.InnerRows, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 11)),
+                            //End of create borders around added part, inner rows lines, inner columns lines
+
+                            GCellRequestFactory.GenerateRepeatCellRequest( //Set background to cols 4-8
+                                new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 9),
+                                new GCell()
+                                    .AddFormat(GCellFormat.BackgroundColorRed, 1f)
+                                    .AddFormat(GCellFormat.BackgroundColorGreen, 242/255f)
+                                    .AddFormat(GCellFormat.BackgroundColorBlue, 204/255f)
+                            ),
+                            GCellRequestFactory.GenerateRepeatCellRequest( //Wrap cols 8-10
+                                new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 8, 11),
+                                new GCell()
+                                    .AddFormat(GCellFormat.WrapStrategy, "WRAP")
+                                    .AddFormat(GCellFormat.VerticalAlignment, "MIDDLE")
+                                    .AddFormat(GCellFormat.HorizontalAlignment, "CENTER")
+                            ),
                         }
                     };
                     var update = Service.Spreadsheets.BatchUpdate(batchRequest, spreadsheetId);

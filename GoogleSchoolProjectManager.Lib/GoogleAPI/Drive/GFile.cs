@@ -97,8 +97,9 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             return this.FileInfo.Name + ": " + MimeTypes.GetMimeTypeDescription(this);
         }
 
-        public bool IsNotGFolder => (this as GFolder) == null ? true : false;
-        public bool IsGFolder => (this as GFolder) != null ? true : false;
+        public bool IsNotGFolder => (this as GFolder) == null;
+        public bool IsGFolder => (this as GFolder) != null;
+        public bool NameContainsKHS => (!string.IsNullOrEmpty(this.Name)) && this.Name.ToUpperInvariant().Contains("KHS");
 
 
         #region [Implementation of INotifyPropertyChanged]

@@ -592,7 +592,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 
                 mCMD_CheckAllFiles_ForUpdate = new RelayCommand<bool>((checkIt) =>
                 {
-                    Tree.UpdateAllFilesInFolder((MainSelectedItem as GFolder), a => a.IsSelectedForUpdate = checkIt);
+                    Tree.UpdateAllFilesInFolder((MainSelectedItem as GFolder), a => a.IsSelectedForUpdate = checkIt, (f) => f.IsNotGFolder && f.NameContainsKHS);
                 },
                 (checkIt) => MainSelectedItem?.IsGFolder ?? false);
 
@@ -613,7 +613,6 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 mCMD_KHSRequest_AddSubjectGoal = new RelayCommand(() =>
                 {
                     UpdateKHSRequest.SubjectGoalList.Add(new SubjectGoalPair(KHSRequestEditSubject, KHSRequestEditGoal));
-                    KHSRequestEditSubject = null;
                     KHSRequestEditGoal = null;
                 });
 
@@ -665,7 +664,6 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 return this.mCMD_SelectMainFolderToggleChanged;
             }
         }
-
 
         #endregion
 

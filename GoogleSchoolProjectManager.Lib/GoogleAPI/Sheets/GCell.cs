@@ -27,7 +27,7 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
 
     public static class GCellRequestFactory
     {
-        public static Request GenerateRepeactCellRequest(GRange range, GCell cell)
+        public static Request GenerateRepeatCellRequest(GRange range, GCell cell)
         {
             return new Request()
             {
@@ -40,23 +40,64 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             };
         }
 
-        //public static Request GenerateUpdateCellRequest(GRange range, List<GCell> cell)
-        //{
-        //    return new Request()
-        //    {
-        //        UpdateCells = new UpdateCellsRequest()
-        //        {
-        //            Rows = cell.GetCellData(),
-        //            Fields = cell.GetFields(),
-        //            Range = range.GetGridRange()
-        //        }
-        //    };
-        //}
+        public static Request GenerateRepeatCellRequest(GCoordinate start, GRowList rows)
+        {
+            return new Request()
+            {
+                UpdateCells = new UpdateCellsRequest()
+                {
+                    Rows = rows.GetRowDataList(),
+                    Fields = rows.GetFields().GetFieldsString(),
+                    Start = start.GetGridCoordinate(),
+                }
+            };
+        }
+    }
+
+    public class GRowList : List<GRow>
+    {
+        public IList<RowData> GetRowDataList() => this.Select(a => a.GetRowData()).ToList();
+
+        public GFields GetFields() => this.Aggregate(new GFields(), (result, item) =>
+        {
+            result.UnionWith(item.GetFields());
+            return result;
+        });
+    }
+
+    public class GRow : List<GCell>
+    {
+        public RowData GetRowData()
+        {
+            return new RowData()
+            {
+                Values = this.Select(a => a.GetCellData()).ToList()
+            };
+        }
+
+        public GFields GetFields() => this.Aggregate(new GFields(), (result, item) =>
+            {
+                result.UnionWith(item.Fields);
+                return result;
+            });
+    }
+
+    public class GFields : HashSet<string>
+    {
+        public string GetFieldsString()
+        {
+            return string.Join(",", this);
+        }
+
+        public override string ToString()
+        {
+            return GetFieldsString();
+        }
     }
 
     public class GCell
     {
-        private List<string> mFields = new List<string>();
+        public GFields Fields { get; private set; } = new GFields();
         private CellFormat mCellFormat;
         private ExtendedValue mCellData;
 
@@ -71,7 +112,7 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
 
         public string GetFields()
         {
-            return string.Join(",", mFields);
+            return Fields.GetFieldsString();
         }
 
         public GCell AddFormat(GCellFormat format, object value)
@@ -82,57 +123,57 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             {
                 case GCellFormat.WrapStrategy:
                     mCellFormat.WrapStrategy = value.ToString();
-                    mFields.Add("userEnteredFormat.wrapStrategy");
+                    Fields.Add("userEnteredFormat.wrapStrategy");
                     break;
                 case GCellFormat.TextRotationVertical:
                     if (mCellFormat.TextRotation == null) mCellFormat.TextRotation = new TextRotation();
 
                     mCellFormat.TextRotation.Vertical = bool.Parse(value.ToString());
-                    mFields.Add("userEnteredFormat.textRotation.vertical");
+                    Fields.Add("userEnteredFormat.textRotation.vertical");
                     break;
                 case GCellFormat.TextRotationAngle:
                     if (mCellFormat.TextRotation == null) mCellFormat.TextRotation = new TextRotation();
 
                     mCellFormat.TextRotation.Angle = int.Parse(value.ToString());
-                    mFields.Add("userEnteredFormat.textRotation.angle");
+                    Fields.Add("userEnteredFormat.textRotation.angle");
                     break;
                 case GCellFormat.VerticalAlignment:
                     mCellFormat.VerticalAlignment = value.ToString();
-                    mFields.Add("userEnteredFormat.verticalAlignment");
+                    Fields.Add("userEnteredFormat.verticalAlignment");
                     break;
                 case GCellFormat.HorizontalAlignment:
                     mCellFormat.HorizontalAlignment = value.ToString();
-                    mFields.Add("userEnteredFormat.horizontalAlignment");
+                    Fields.Add("userEnteredFormat.horizontalAlignment");
                     break;
                 case GCellFormat.TextFormatBold:
                     if (mCellFormat.TextFormat == null) mCellFormat.TextFormat = new TextFormat();
 
                     mCellFormat.TextFormat.Bold = bool.Parse(value.ToString());
-                    mFields.Add("userEnteredFormat.textFormat.bold");
+                    Fields.Add("userEnteredFormat.textFormat.bold");
                     break;
                 case GCellFormat.TextFormatFontSize:
                     if (mCellFormat.TextFormat == null) mCellFormat.TextFormat = new TextFormat();
 
                     mCellFormat.TextFormat.FontSize = int.Parse(value.ToString());
-                    mFields.Add("userEnteredFormat.textFormat.fontSize");
+                    Fields.Add("userEnteredFormat.textFormat.fontSize");
                     break;
                 case GCellFormat.BackgroundColorRed:
                     if (mCellFormat.BackgroundColor == null) mCellFormat.BackgroundColor = new Color();
 
                     mCellFormat.BackgroundColor.Red = float.Parse(value.ToString());
-                    mFields.Add("userEnteredFormat.backgroundColor.red");
+                    Fields.Add("userEnteredFormat.backgroundColor.red");
                     break;
                 case GCellFormat.BackgroundColorGreen:
                     if (mCellFormat.BackgroundColor == null) mCellFormat.BackgroundColor = new Color();
 
                     mCellFormat.BackgroundColor.Green = float.Parse(value.ToString());
-                    mFields.Add("userEnteredFormat.backgroundColor.green");
+                    Fields.Add("userEnteredFormat.backgroundColor.green");
                     break;
                 case GCellFormat.BackgroundColorBlue:
                     if (mCellFormat.BackgroundColor == null) mCellFormat.BackgroundColor = new Color();
 
                     mCellFormat.BackgroundColor.Blue = float.Parse(value.ToString());
-                    mFields.Add("userEnteredFormat.backgroundColor.blue");
+                    Fields.Add("userEnteredFormat.backgroundColor.blue");
                     break;
                 default:
                     break;

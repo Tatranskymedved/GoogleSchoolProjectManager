@@ -24,7 +24,7 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
-        private DateTime? mDateFrom = DateTime.Now;
+        private DateTime? mDateFrom = DateRange.GetNextWeekday(DateTime.Now, DayOfWeek.Monday);
         ///<summary>
         /// DatePicker_KHSUpdate_DateFrom
         ///</summary>
@@ -40,7 +40,7 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
-        private DateTime? mDateTo = DateTime.Now.AddDays(3);
+        private DateTime? mDateTo = DateRange.GetNextWeekday(DateTime.Now, DayOfWeek.Friday);
         ///<summary>
         /// DatePicker_KHSUpdate_DateTo
         ///</summary>

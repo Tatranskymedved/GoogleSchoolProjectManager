@@ -78,6 +78,7 @@
     <Compile Include="GoogleAPI\Drive\MimeTypes.cs" />
     <Compile Include="GoogleAPI\GoogleConnector.cs" />
     <Compile Include="GoogleAPI\Sheets\DateRange.cs" />
+    <Compile Include="GoogleAPI\Sheets\GCoordinate.cs" />
     <Compile Include="GoogleAPI\Sheets\GRange.cs" />
     <Compile Include="GoogleAPI\Sheets\GCell.cs" />
     <Compile Include="GoogleAPI\Sheets\GUpdateBorders.cs" />

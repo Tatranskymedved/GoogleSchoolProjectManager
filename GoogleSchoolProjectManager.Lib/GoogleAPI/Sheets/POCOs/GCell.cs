@@ -1,100 +1,9 @@
 ﻿using Google.Apis.Sheets.v4.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
+namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets.POCOs
 {
-    public enum GCellFormat
-    {
-        WrapStrategy,
-        TextRotationVertical,
-        TextRotationAngle,
-        VerticalAlignment,
-        HorizontalAlignment,
-        TextFormatBold,
-        TextFormatFontSize,
-        BackgroundColorRed,
-        BackgroundColorGreen,
-        BackgroundColorBlue,
-    }
-    public enum GCellValue
-    {
-
-    }
-
-    public static class GCellRequestFactory
-    {
-        public static Request GenerateRepeatCellRequest(GRange range, GCell cell)
-        {
-            return new Request()
-            {
-                RepeatCell = new RepeatCellRequest()
-                {
-                    Cell = cell.GetCellData(),
-                    Fields = cell.GetFields(),
-                    Range = range.GetGridRange()
-                }
-            };
-        }
-
-        public static Request GenerateRepeatCellRequest(GCoordinate start, GRowList rows)
-        {
-            return new Request()
-            {
-                UpdateCells = new UpdateCellsRequest()
-                {
-                    Rows = rows.GetRowDataList(),
-                    Fields = rows.GetFields().GetFieldsString(),
-                    Start = start.GetGridCoordinate(),
-                }
-            };
-        }
-    }
-
-    public class GRowList : List<GRow>
-    {
-        public IList<RowData> GetRowDataList() => this.Select(a => a.GetRowData()).ToList();
-
-        public GFields GetFields() => this.Aggregate(new GFields(), (result, item) =>
-        {
-            result.UnionWith(item.GetFields());
-            return result;
-        });
-    }
-
-    public class GRow : List<GCell>
-    {
-        public RowData GetRowData()
-        {
-            return new RowData()
-            {
-                Values = this.Select(a => a.GetCellData()).ToList()
-            };
-        }
-
-        public GFields GetFields() => this.Aggregate(new GFields(), (result, item) =>
-            {
-                result.UnionWith(item.Fields);
-                return result;
-            });
-    }
-
-    public class GFields : HashSet<string>
-    {
-        public string GetFieldsString()
-        {
-            return string.Join(",", this);
-        }
-
-        public override string ToString()
-        {
-            return GetFieldsString();
-        }
-    }
-
     public class GCell
     {
         public GFields Fields { get; private set; } = new GFields();
@@ -182,11 +91,36 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             return this;
         }
 
-        public GCell AddValue()
+        public GCell AddValue(object value)
         {
             if (mCellData == null) mCellData = new ExtendedValue();
 
+            var type = value?.GetType();
+            Action<object, ExtendedValue, GFields> act;
+            if (type != null && TypeGExtendedValueDict.TryGetValue(type, out act))
+            {
+                act.Invoke(value, mCellData, Fields);
+            }
+            else
+            {
+                mCellData.StringValue = "";
+                Fields.Add("userEnteredValue.stringValue");
+            }
+
             return this;
         }
+
+        private static Dictionary<Type, Action<object, ExtendedValue, GFields>> TypeGExtendedValueDict = new Dictionary<Type, Action<object, ExtendedValue, GFields>>
+        {
+            { typeof(string), (val,result, fields)   => { result.StringValue = val.ToString(); fields.Add("userEnteredValue.stringValue"); } },
+
+            { typeof(int), (val,result, fields)      => { result.NumberValue = Convert.ToDouble(val); fields.Add("userEnteredValue.numberValue"); } },
+            { typeof(float), (val,result, fields)    => { result.NumberValue = Convert.ToDouble(val); fields.Add("userEnteredValue.numberValue"); } },
+            { typeof(double), (val,result, fields)   => { result.NumberValue = Convert.ToDouble(val); fields.Add("userEnteredValue.numberValue"); } },
+            { typeof(byte), (val,result, fields)     => { result.NumberValue = Convert.ToDouble(val); fields.Add("userEnteredValue.numberValue"); } },
+            { typeof(DateTime), (val,result, fields) => { result.NumberValue = Convert.ToDouble(val); fields.Add("userEnteredValue.numberValue"); } },
+
+            { typeof(bool), (val,result, fields)     => { result.BoolValue = Convert.ToBoolean(val); fields.Add("userEnteredValue.boolValue"); } },
+        };
     }
 }

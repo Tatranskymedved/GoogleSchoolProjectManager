@@ -2,8 +2,12 @@
 using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets;
+using GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets.POCOs;
+using GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets.Requests;
+using GoogleSchoolProjectManager.Lib.KHS;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 
@@ -118,21 +122,24 @@ namespace GoogleSchoolProjectManager.Lib.Google
             return result;
         }
 
-        public void UpdateSheets(UpdateKHSRequest khsRequest, Action<ProgressInfo> updateProgress, CancellationToken cancelToken)
+        public void UpdateSheets(IUpdateRequest khsRequest, Action<ProgressInfo> updateProgress, CancellationToken cancelToken, out List<Exception> errorList)
         {
+            errorList = new List<Exception>();
+
             if (khsRequest == null) throw new ArgumentNullException(nameof(khsRequest));
 
             var weekRange = khsRequest.GetFormattedDateRange();
-            var requestBatchUpdate_AddData = khsRequest.SubjectGoalList.ToList().Select((b, c) =>
-                new RowData()
-                {
-                    Values = new List<CellData>()
-                    {
-                        new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = c == 0 ? weekRange : "" } },//, UserEnteredFormat = new CellFormat() { WrapStrategy = c == 0 ? "WRAP" : "OVERFLOW_CELL" } },
-                        new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = b.Subject }, UserEnteredFormat = new CellFormat() { TextFormat = new TextFormat() { Bold = true } } },
-                        new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = b.Goal } }
-                    }
-                }).ToList();
+            //var requestBatchUpdate_AddData = khsRequest.SubjectGoalList.ToList().Select((b, c) =>
+            //    new RowData()
+            //    {
+            //        Values = new List<CellData>()
+            //        {
+            //            new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = c == 0 ? weekRange : "" } },
+            //            new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = b.Subject }, UserEnteredFormat = new CellFormat() { TextFormat = new TextFormat() { Bold = true } } },
+            //            new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = b.Goal } }
+            //        }
+            //    }).ToList();
+            var data = khsRequest.GetGRowList();
 
             for (int i = 0; i < khsRequest.Files.Count; i++)
             {
@@ -160,40 +167,29 @@ namespace GoogleSchoolProjectManager.Lib.Google
                     {
                         Requests = new List<Request>()
                         {
-                            new Request()
-                            {
-                                UpdateCells = new UpdateCellsRequest()
-                                {
-                                    Start = new GridCoordinate()
-                                    {
-                                        SheetId = worksheetInfo.SheetId,
-                                        RowIndex = firstNewWeekRow,
-                                        ColumnIndex = 1
-                                    },
-                                    Fields = "userEnteredValue.stringValue"
-                                            +",userEnteredFormat.textFormat.bold"
-                                            ,
-                                    //Fields = "effectiveFormat.wrapStrategy" +
-                                    //        ",userEnteredValue.stringValue",
-                                    Rows = requestBatchUpdate_AddData
-                                }
-                            },
-                            new Request()
-                            {
-                                MergeCells = new MergeCellsRequest()
-                                {
-                                    MergeType = "MERGE_ALL",
-                                    Range = new GridRange()
-                                    {
-                                        SheetId = worksheetInfo.SheetId,
-                                        StartRowIndex = firstNewWeekRow,
-                                        EndRowIndex = lastNewWeekRow,
-                                        StartColumnIndex = 1,
-                                        EndColumnIndex = 2
-                                    }
-                                }
-                            },
-                            GCellRequestFactory.GenerateRepeatCellRequest( //Update date in first column (rotation is split to 2 requests)
+                            //Fill all basic data
+                            GCellRequestFactory.GenerateUpdateCellsRequest(khsRequest.GetGRowList(), new GCoordinate(worksheetInfo.SheetId, firstNewWeekRow, 1)),
+                            //new Request()
+                            //{
+                            //    UpdateCells = new UpdateCellsRequest()
+                            //    {
+                            //        Start = new GridCoordinate()
+                            //        {
+                            //            SheetId = worksheetInfo.SheetId,
+                            //            RowIndex = firstNewWeekRow,
+                            //            ColumnIndex = 1
+                            //        },
+                            //        Fields = "userEnteredValue.stringValue"
+                            //                +",userEnteredFormat.textFormat.bold",
+                            //        Rows = requestBatchUpdate_AddData
+                            //    }
+                            //},
+
+                            //Merges first column (date)
+                            GMergeCellsFactory.GenerateRequest(GMergeType.MergeAll, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 2)),
+
+                            //Update date in first column (rotation is split to 2 requests)
+                            GCellRequestFactory.GenerateRepeatCellRequest(
                                 new GCoordinate(worksheetInfo.SheetId, firstNewWeekRow, 1),
                                 new GRowList()
                                 {
@@ -209,7 +205,9 @@ namespace GoogleSchoolProjectManager.Lib.Google
                                     }
                                 }
                             ),
-                            GCellRequestFactory.GenerateRepeatCellRequest( //Rotate date in first column
+
+                            //Rotate date in first column
+                            GCellRequestFactory.GenerateRepeatCellRequest(
                                 new GCoordinate(worksheetInfo.SheetId, firstNewWeekRow, 1),
                                 new GRowList()
                                 {
@@ -220,28 +218,32 @@ namespace GoogleSchoolProjectManager.Lib.Google
                                     }
                                 }
                             ),
+
                             //Creates borders around added part, inner rows lines, inner columns lines
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 2)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 2, 3)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 3, 4)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 5)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 5, 6)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 6, 7)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 7, 8)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 8, 9)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 9, 10)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.Outer, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 10, 11)),
-                            GUpdateBorders.GenerateRequest(GUpdateBordersType.InnerRows, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 11)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 2)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 2, 3)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 3, 4)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 5)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 5, 6)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 6, 7)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 7, 8)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 8, 9)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 9, 10)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 10, 11)),
+                            GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.InnerRows, GBorderLineType.Dashed, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 11)),
                             //End of create borders around added part, inner rows lines, inner columns lines
 
-                            GCellRequestFactory.GenerateRepeatCellRequest( //Set background to cols 4-8
+                            //Set background to cols 4-8
+                            GCellRequestFactory.GenerateRepeatCellRequest(
                                 new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 9),
                                 new GCell()
                                     .AddFormat(GCellFormat.BackgroundColorRed, 1f)
                                     .AddFormat(GCellFormat.BackgroundColorGreen, 242/255f)
                                     .AddFormat(GCellFormat.BackgroundColorBlue, 204/255f)
                             ),
-                            GCellRequestFactory.GenerateRepeatCellRequest( //Wrap cols 8-10
+
+                            //Wrap cols 8-10
+                            GCellRequestFactory.GenerateRepeatCellRequest(
                                 new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 8, 11),
                                 new GCell()
                                     .AddFormat(GCellFormat.WrapStrategy, "WRAP")
@@ -256,7 +258,7 @@ namespace GoogleSchoolProjectManager.Lib.Google
                 }
                 catch (Exception ex)
                 {
-                    ;
+                    errorList.Add(ex);
                 }
             };
         }

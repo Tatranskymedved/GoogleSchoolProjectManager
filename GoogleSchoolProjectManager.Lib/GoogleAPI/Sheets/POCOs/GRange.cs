@@ -1,11 +1,6 @@
 ﻿using Google.Apis.Sheets.v4.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
+namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets.POCOs
 {
     public class GRange
     {

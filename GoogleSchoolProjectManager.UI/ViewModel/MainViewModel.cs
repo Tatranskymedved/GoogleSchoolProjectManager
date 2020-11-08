@@ -1,6 +1,7 @@
 ﻿using GoogleSchoolProjectManager.Lib.Google;
 using GoogleSchoolProjectManager.Lib.Google.Drive;
 using GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets;
+using GoogleSchoolProjectManager.Lib.KHS;
 using GoogleSchoolProjectManager.UI.View;
 using MahApps.Metro.Controls.Dialogs;
 using System;
@@ -543,6 +544,8 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 
                     try
                     {
+                        List<Exception> errorList;
+
                         UpdateKHSRequest.Files = Tree.FindAllFilesSelectedForUpdate();
                         using (var con = new GoogleConnector())
                         {
@@ -555,7 +558,13 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                                     progress.FileIndex,
                                     progress.FilesCount,
                                     progress.FileName));
-                            }, cancelToken);
+                            }, cancelToken, out errorList);
+
+                            if (errorList?.Count > 0)
+                                await DialogCoordinator.ShowMessageAsync(this,
+                                    Properties.Resources.Dialog_ExceptionOccurs_Title,
+                                    string.Join(Environment.NewLine, errorList.Select(a => a.Message)),
+                                    MessageDialogStyle.Affirmative);
                         }
                     }
                     catch (Exception ex)

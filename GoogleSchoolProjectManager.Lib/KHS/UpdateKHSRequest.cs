@@ -1,12 +1,24 @@
 ﻿using GoogleSchoolProjectManager.Lib.Google.Drive;
+using GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets;
+using GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets.POCOs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 
-namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
+namespace GoogleSchoolProjectManager.Lib.KHS
 {
-    public class UpdateKHSRequest : INotifyPropertyChanged
+    public interface IUpdateRequest
+    {
+        ObservableCollection<SubjectGoalPair> SubjectGoalList { get; }
+        List<GFile> Files { get; }
+        string SheetName { get; }
+        string GetFormattedDateRange();
+        GRowList GetGRowList();
+    }
+
+    public class UpdateKHSRequest : INotifyPropertyChanged, IUpdateRequest
     {
         private List<GFile> mFiles = new List<GFile>();
         ///<summary>
@@ -24,7 +36,7 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
-        private DateTime? mDateFrom = DateRange.GetNextWeekday(DateTime.Now, DayOfWeek.Monday);
+        private DateTime? mDateFrom;
         ///<summary>
         /// DatePicker_KHSUpdate_DateFrom
         ///</summary>
@@ -40,7 +52,7 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
-        private DateTime? mDateTo = DateRange.GetNextWeekday(DateTime.Now, DayOfWeek.Friday);
+        private DateTime? mDateTo;
         ///<summary>
         /// DatePicker_KHSUpdate_DateTo
         ///</summary>
@@ -74,6 +86,11 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
             }
         }
 
+        public UpdateKHSRequest()
+        {
+            this.mDateFrom = DateRange.GetNextWeekday(DateTime.Now, DayOfWeek.Monday);
+            this.mDateTo = DateRange.GetNextWeekday(mDateFrom.Value, DayOfWeek.Friday);
+        }
 
         public static string A1_WeekColumn { get; set; } = "B4:B";
         public static string A1_SubjectColumn { get; set; } = "C4:C";
@@ -120,52 +137,22 @@ namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string aPropertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(aPropertyName));
         #endregion
-    }
 
-    public class SubjectGoalPair : INotifyPropertyChanged
-    {
-        private string mSubject = null;
-        ///<summary>
-        /// Subject
-        ///</summary>
-        public string Subject
+        public GRowList GetGRowList()
         {
-            get { return this.mSubject; }
-            set
-            {
-                if (value == this.mSubject) return;
+            var result = new GRowList();
 
-                this.mSubject = value;
-                OnPropertyChanged(nameof(Subject));
-            }
+            var weekRange = GetFormattedDateRange();
+
+            result.AddRange(SubjectGoalList.Select((b, c) =>
+                new GRow()
+                {
+                    new GCell().AddValue(c == 0 ? weekRange : ""),
+                    new GCell().AddValue(b.Subject).AddFormat(GCellFormat.TextFormatBold, true),
+                    new GCell().AddValue(b.Goal)
+                }));
+
+            return result;
         }
-
-        private string mGoal = null;
-        ///<summary>
-        /// Goal
-        ///</summary>
-        public string Goal
-        {
-            get { return this.mGoal; }
-            set
-            {
-                if (value == this.mGoal) return;
-
-                this.mGoal = value;
-                OnPropertyChanged(nameof(Goal));
-            }
-        }
-
-        public SubjectGoalPair() { }
-        public SubjectGoalPair(string Subject, string Goal)
-        {
-            this.Subject = Subject;
-            this.Goal = Goal;
-        }
-
-        #region [Implementation of INotifyPropertyChanged]
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string aPropertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(aPropertyName));
-        #endregion
     }
 }

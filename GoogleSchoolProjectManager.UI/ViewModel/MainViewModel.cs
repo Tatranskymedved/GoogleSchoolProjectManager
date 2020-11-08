@@ -10,10 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace GoogleSchoolProjectManager.UI.ViewModel
@@ -93,7 +90,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
-        private string mNewFolderName = null;
+        private string mNewFolderName = string.Format("TÝDEN {0:d. M.} - {1:d. M.}", DateRange.GetNextWeekday(DateTime.Now, DayOfWeek.Monday), DateRange.GetNextWeekday(DateTime.Now, DayOfWeek.Monday).AddDays(4));
         ///<summary>
         /// NewFolderName
         ///</summary>
@@ -492,7 +489,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                                     manager.CopyFile(GFileTemplateSource, (MainSelectedItem as GFolder), fileName);
 
                                 }
-                                catch(Exception ex)
+                                catch (Exception ex)
                                 {
                                     errorList.Add(ex);
                                 }

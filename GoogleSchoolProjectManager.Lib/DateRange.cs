@@ -2,7 +2,7 @@
 
 namespace GoogleSchoolProjectManager.Lib.GoogleAPI.Sheets
 {
-    static class DateRange
+    public static class DateRange
     {
         //private static string[] Months = {
         //                                 "January", "February", "March", "April",

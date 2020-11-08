@@ -100,15 +100,15 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             }
         }
 
-        public void UpdateAllFiles(Action<GFile> activity, Func<GFile, bool> predicate = null)
+        public void UpdateAllFilesAndFolders(Action<GFile> activity, Func<GFile, bool> predicate = null)
         {
-            UpdateAllFilesInFolder(this, activity, predicate);
+            UpdateAllFilesAndFoldersInFolder(this, activity, predicate);
         }
-        public void UpdateAllFilesInFolder(GFolder folder, Action<GFile> activity, Func<GFile, bool> predicate = null)
+        public void UpdateAllFilesAndFoldersInFolder(GFolder folder, Action<GFile> activity, Func<GFile, bool> predicate = null)
         {
-            if (predicate != null && predicate(this)) activity(this);
+            if (predicate == null || predicate(folder)) activity(folder);
 
-            folder.Folders.ToList().ForEach(f => UpdateAllFilesInFolder(f, activity, predicate));
+            folder.Folders.ToList().ForEach(f => UpdateAllFilesAndFoldersInFolder(f, activity, predicate));
             folder.Files.Where(f => predicate == null || predicate(f)).ToList().ForEach(f => activity(f));
         }
     }

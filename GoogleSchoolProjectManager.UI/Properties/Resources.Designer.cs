@@ -88,6 +88,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Count of selected items: .
+        /// </summary>
+        public static string APP_MENU_Status_CountOfSelectedFiles {
+            get {
+                return ResourceManager.GetString("APP_MENU_Status_CountOfSelectedFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to App Title.
         /// </summary>
         public static string APP_Title {
@@ -133,6 +142,24 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uncheck all top level folders.
+        /// </summary>
+        public static string CMD_CheckAllTopLevelFolders_false {
+            get {
+                return ResourceManager.GetString("CMD_CheckAllTopLevelFolders_false", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check all top level folders.
+        /// </summary>
+        public static string CMD_CheckAllTopLevelFolders_true {
+            get {
+                return ResourceManager.GetString("CMD_CheckAllTopLevelFolders_true", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm selection.
         /// </summary>
         public static string CMD_ConfirmSelectedItem {
@@ -147,6 +174,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string CMD_ExpandAll {
             get {
                 return ResourceManager.GetString("CMD_ExpandAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generate folder to selected folders.
+        /// </summary>
+        public static string CMD_GenerateEmptyFolder {
+            get {
+                return ResourceManager.GetString("CMD_GenerateEmptyFolder", resourceCulture);
             }
         }
         
@@ -282,6 +318,54 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string DatePicker_KHS_SelectDateTo {
             get {
                 return ResourceManager.GetString("DatePicker_KHS_SelectDateTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Have you entered propert name of folder?
+        ///Have you selected all folders that should&apos;ve been updated? Deselected all the shouldn&apos;t be updated?
+        ///
+        ///If all this is ok, would you like to proceed with creating folder into the selected folders?.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateEmptyFolder_BEFORE_Message {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateEmptyFolder_BEFORE_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to create new folder(s)?.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateEmptyFolder_BEFORE_Title {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateEmptyFolder_BEFORE_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Currently creating ({0} of {1}): {2}.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preparing generating, contacting server....
+        /// </summary>
+        public static string DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message_Before {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message_Before", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Generating folder(s) to selected folders.
+        /// </summary>
+        public static string DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Title {
+            get {
+                return ResourceManager.GetString("DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Title", resourceCulture);
             }
         }
         
@@ -498,6 +582,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         public static string KHSRequest_Label_Subject {
             get {
                 return ResourceManager.GetString("KHSRequest_Label_Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New folder name:.
+        /// </summary>
+        public static string Label_EnterNewFolderName {
+            get {
+                return ResourceManager.GetString("Label_EnterNewFolderName", resourceCulture);
             }
         }
         

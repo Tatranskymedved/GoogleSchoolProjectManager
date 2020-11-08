@@ -129,6 +129,9 @@
     <value>_File</value>
     <comment>Main menu button, File</comment>
   </data>
+  <data name="APP_MENU_Status_CountOfSelectedFiles" xml:space="preserve">
+    <value>Count of selected items: </value>
+  </data>
   <data name="APP_Title" xml:space="preserve">
     <value>App Title</value>
     <comment>Application title</comment>
@@ -145,11 +148,20 @@
   <data name="CMD_CheckAllFiles_ForUpdate" xml:space="preserve">
     <value>Check all KHSes</value>
   </data>
+  <data name="CMD_CheckAllTopLevelFolders_false" xml:space="preserve">
+    <value>Uncheck all top level folders</value>
+  </data>
+  <data name="CMD_CheckAllTopLevelFolders_true" xml:space="preserve">
+    <value>Check all top level folders</value>
+  </data>
   <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
     <value>Confirm selection</value>
   </data>
   <data name="CMD_ExpandAll" xml:space="preserve">
     <value>Expand all</value>
+  </data>
+  <data name="CMD_GenerateEmptyFolder" xml:space="preserve">
+    <value>Generate folder to selected folders</value>
   </data>
   <data name="CMD_GenerateFilesFromTemplate" xml:space="preserve">
     <value>Generate files from template</value>
@@ -211,6 +223,24 @@
   <data name="DIALOG_CMDGetFolderTree_PROGRESS_Title" xml:space="preserve">
     <value>Download in progress</value>
     <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_BEFORE_Message" xml:space="preserve">
+    <value>Have you entered propert name of folder?
+Have you selected all folders that should've been updated? Deselected all the shouldn't be updated?
+
+If all this is ok, would you like to proceed with creating folder into the selected folders?</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_BEFORE_Title" xml:space="preserve">
+    <value>Do you really want to create new folder(s)?</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message" xml:space="preserve">
+    <value>Currently creating ({0} of {1}): {2}</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message_Before" xml:space="preserve">
+    <value>Preparing generating, contacting server...</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Title" xml:space="preserve">
+    <value>Generating folder(s) to selected folders</value>
   </data>
   <data name="DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Message" xml:space="preserve">
     <value>Have you checked all the files that will be generated? Are you happy with that?
@@ -292,6 +322,9 @@ If everthing is OK, do you want to continue with editing?</value>
   <data name="KHSRequest_Label_Subject" xml:space="preserve">
     <value>Subject:</value>
     <comment>Label for entering subject</comment>
+  </data>
+  <data name="Label_EnterNewFolderName" xml:space="preserve">
+    <value>New folder name:</value>
   </data>
   <data name="Label_NameOfFile" xml:space="preserve">
     <value>&lt;NameOfFile&gt;</value>

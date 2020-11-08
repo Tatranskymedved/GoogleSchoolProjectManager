@@ -25,6 +25,7 @@
                  >
     <Window.Resources>
         <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converter:StringFormatConcatenator x:Key="StringFormatConcatenator"/>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -46,7 +47,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="2*"/>
-                <RowDefinition Height="4*"/>
+                <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -133,11 +134,15 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
                         <RowDefinition Height="50"/>
                         <!--<RowDefinition Height="*" MaxHeight="35"/>-->
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -147,27 +152,8 @@
                     <GroupBox Header="{x:Static p:Resources.GROUP_HEADER_FileNamesSource}" Grid.Column="0" Grid.Row="0" Grid.RowSpan="10" ToolTip="{x:Static p:Resources.GROUP_TOOLTIP_FileNamesSource}">
                         <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Text="{Binding FileNamesSource, UpdateSourceTrigger=PropertyChanged}"/>
                     </GroupBox>
-                    
-                    <Button Grid.Column="1" Grid.Row="0" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="3"/>
-                    <TextBox IsReadOnly="True" Grid.Column="2" Grid.Row="0" Text="{Binding GFileTemplateSourcePath, Mode=OneWay}" Margin="5,2"/>
 
-                    <!--<Button Grid.Column="1" Grid.Row="1" Command="{Binding CMD_SelectFileNamesSource}" Content="{x:Static p:Resources.CMD_SelectFileNamesSource}" Margin="3"/>-->
-                    <Grid Grid.Column="2" Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Grid.Row="1" Text="{Binding GenerateFilesFromTemplatePrefix, UpdateSourceTrigger=PropertyChanged}" Margin="5,2,0,2"/>
-                        <TextBlock Grid.Column="1" Grid.Row="1" Text="{x:Static p:Resources.Label_NameOfFile}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBox Grid.Column="2" Grid.Row="1" Text="{Binding GenerateFilesFromTemplatePostfix, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,5,2"/>
-                    </Grid>
-
-                    <Button Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Margin="3" Grid.RowSpan="2"
-                            Command="{Binding CMD_GenerateFilesFromTemplate}"
-                            Content="{x:Static p:Resources.CMD_GenerateFilesFromTemplate}"/>
-
-                    <GroupBox Header="{x:Static p:Resources.GROUP_HEADER_FileNamesResult}" Grid.Column="3" Grid.Row="0" Grid.RowSpan="10" ToolTip="{x:Static p:Resources.GROUP_TOOLTIP_FileNamesResult}">
+                    <GroupBox Header="{x:Static p:Resources.GROUP_HEADER_FileNamesResult}" Grid.Column="1" Grid.Row="0" Grid.RowSpan="10" ToolTip="{x:Static p:Resources.GROUP_TOOLTIP_FileNamesResult}">
                         <ListBox ItemsSource="{Binding FileNamesList}" BorderBrush="ForestGreen" BorderThickness="1">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListBoxItem}">
@@ -176,6 +162,67 @@
                             </ListBox.ItemContainerStyle>
                         </ListBox>
                     </GroupBox>
+
+                    <Button Grid.Column="2" Grid.Row="0" Command="{Binding CMD_SelectFileTemplateSource}" Content="{x:Static p:Resources.CMD_SelectFileTemplateSource}" Margin="3"/>
+                    <TextBox IsReadOnly="True" Grid.Column="3" Grid.Row="0" Text="{Binding GFileTemplateSourcePath, Mode=OneWay}" Margin="5,2"/>
+
+                    <!--<Button Grid.Column="1" Grid.Row="1" Command="{Binding CMD_SelectFileNamesSource}" Content="{x:Static p:Resources.CMD_SelectFileNamesSource}" Margin="3"/>-->
+                    <Grid Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox Grid.Column="0" Text="{Binding GenerateFilesFromTemplatePrefix, UpdateSourceTrigger=PropertyChanged}" Margin="5,2,0,2"/>
+                        <TextBlock Grid.Column="1" Text="{x:Static p:Resources.Label_NameOfFile}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Column="2" Text="{Binding GenerateFilesFromTemplatePostfix, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,5,2"/>
+                    </Grid>
+
+                    <Grid Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{x:Static p:Resources.Label_EnterNewFolderName}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox Grid.Column="1" Text="{Binding NewFolderName, UpdateSourceTrigger=PropertyChanged}" Margin="5,2" TextWrapping="NoWrap"/>
+                    </Grid>
+
+
+                    <Button Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="1" Margin="3" Grid.RowSpan="1"
+                            Command="{Binding CMD_CheckAllTopLevelFolders}"
+                            CommandParameter="true"
+                            Content="{x:Static p:Resources.CMD_CheckAllTopLevelFolders_true}"/>
+                    <Button Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1" Margin="3" Grid.RowSpan="1"
+                            Command="{Binding CMD_CheckAllTopLevelFolders}"
+                            CommandParameter="false"
+                            Content="{x:Static p:Resources.CMD_CheckAllTopLevelFolders_false}"/>
+                    
+                    <Button Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" Margin="3" Grid.RowSpan="1"
+                            Command="{Binding CMD_GenerateFilesFromTemplate}"
+                            Content="{x:Static p:Resources.CMD_GenerateFilesFromTemplate}"/>
+                    <Button Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Margin="3" Grid.RowSpan="1"
+                            Command="{Binding CMD_GenerateEmptyFolder}"
+                            Content="{x:Static p:Resources.CMD_GenerateEmptyFolder}"/>
+                    
+                    <TreeView Grid.Column="4" Grid.Row="0" Grid.RowSpan="10"
+                              ItemsSource="{Binding MainSelectedItem.Items}"
+                              IsEnabled="{Binding Path=IsFolderLocked}">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type googleLibDrive:GFile}" ItemsSource="{Binding Items}">
+                                <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelectedForUpdate}">
+                                    <CheckBox.Style>
+                                        <Style TargetType="{x:Type CheckBox}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsNotGFolder}" Value="true">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </CheckBox.Style>
+                                </CheckBox>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
                 </Grid>
             </GroupBox>
 

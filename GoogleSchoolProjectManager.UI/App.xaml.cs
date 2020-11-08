@@ -30,7 +30,7 @@ namespace GoogleSchoolProjectManager.UI
         {
             //TODO: Paste here all things that needs to be initialized in ViewModels
             this.container = new StandardKernel();
-            container.Bind<IViewModel>().To<MainViewModel>().InThreadScope();
+            container.Bind<IViewModel>().To<FakeMainViewModel>().InThreadScope();
             container.Bind<IDialogCoordinator>().To<DialogCoordinator>().InThreadScope();
         }
 

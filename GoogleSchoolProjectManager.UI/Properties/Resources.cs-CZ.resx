@@ -129,6 +129,9 @@
     <value>_Soubor</value>
     <comment>Main menu button, File</comment>
   </data>
+  <data name="APP_MENU_Status_CountOfSelectedFiles" xml:space="preserve">
+    <value>Počet vybraných položek:</value>
+  </data>
   <data name="APP_Title" xml:space="preserve">
     <value>Generátor tabulek Google</value>
   </data>
@@ -144,11 +147,20 @@
   <data name="CMD_CheckAllFiles_ForUpdate" xml:space="preserve">
     <value>Vybrat všechny KHSky k editaci</value>
   </data>
+  <data name="CMD_CheckAllTopLevelFolders_false" xml:space="preserve">
+    <value>Odvybrat všechny složky nahoře</value>
+  </data>
+  <data name="CMD_CheckAllTopLevelFolders_true" xml:space="preserve">
+    <value>Vybrat všechny složky nahoře</value>
+  </data>
   <data name="CMD_ConfirmSelectedItem" xml:space="preserve">
     <value>Potvrdit výběr</value>
   </data>
   <data name="CMD_ExpandAll" xml:space="preserve">
     <value>Rozbalit vše</value>
+  </data>
+  <data name="CMD_GenerateEmptyFolder" xml:space="preserve">
+    <value>Vytvořit novou složku ve vybraných složkách</value>
   </data>
   <data name="CMD_GenerateFilesFromTemplate" xml:space="preserve">
     <value>Generovat soubor ze šablony</value>
@@ -211,6 +223,24 @@
     <value>Probíhá aktualizace</value>
     <comment>Title of dialog, that appears when user tries to get list of all folders/files at google drive</comment>
   </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_BEFORE_Message" xml:space="preserve">
+    <value>Zadali jste správný název nové složky, která se má vytvořit?
+Vybrali jste všechny složky, do kterých se má vybraná šablona vytvořit? Odvybrali jste ostatní složky?
+
+Pokud je vše v pořádku, přejete si pokračovat s vytvořením šablony do vybraných složek?</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_BEFORE_Title" xml:space="preserve">
+    <value>Opravdu si přejete vygenerovat nové složky?</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message" xml:space="preserve">
+    <value>Právě generuji ({0} z {1}): {2}</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message_Before" xml:space="preserve">
+    <value>Připravuji generování, kontaktuji server...</value>
+  </data>
+  <data name="DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Title" xml:space="preserve">
+    <value>Probíhá generování složek</value>
+  </data>
   <data name="DIALOG_CMD_GenerateFilesFromTemplate_BEFORE_Message" xml:space="preserve">
     <value>Zkontrolovali jste všechny soubory, které budou generované?
 Co jejich názvy?
@@ -227,7 +257,7 @@ Pokud jste spokojeni, chcete spustit generování?</value>
     <comment>Message of dialog taht appears when fiels are being created</comment>
   </data>
   <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Message_Before" xml:space="preserve">
-    <value>Připravuji generování a kontaktuji server</value>
+    <value>Připravuji generování a kontaktuji server...</value>
   </data>
   <data name="DIALOG_CMD_GenerateFilesFromTemplate_PROGRESS_Title" xml:space="preserve">
     <value>Probíhá generování souborů ze šablony</value>
@@ -292,6 +322,9 @@ Pokud je všechno správně nastaveno, chcete pokračovat v editaci všech vybra
   <data name="KHSRequest_Label_Subject" xml:space="preserve">
     <value>Předmět:</value>
     <comment>Label for entering subject</comment>
+  </data>
+  <data name="Label_EnterNewFolderName" xml:space="preserve">
+    <value>Jméno nové složky:</value>
   </data>
   <data name="Label_NameOfFile" xml:space="preserve">
     <value>&lt;JménoSouboru&gt;</value>

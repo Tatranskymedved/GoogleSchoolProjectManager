@@ -90,6 +90,7 @@
     </ApplicationDefinition>
     <Compile Include="Behavior\BindableSelectedItemBehavior.cs" />
     <Compile Include="Converter\InverseBooleanConverter.cs" />
+    <Compile Include="Converter\StringFormatConcatenator.cs" />
     <Compile Include="Properties\Resources.en.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

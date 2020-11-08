@@ -101,6 +101,16 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
         public bool IsGFolder => (this as GFolder) != null;
         public bool NameContainsKHS => (!string.IsNullOrEmpty(this.Name)) && this.Name.ToUpperInvariant().Contains("KHS");
 
+        public override bool Equals(object obj)
+        {
+            var o = obj as GFile;
+
+            if (this == null && o == null) return true;
+            if (this == null && o != null) return false;
+            if (this != null && o == null) return false;
+
+            return this?.FileInfo?.Id.Equals(o?.FileInfo?.Id) ?? false;
+        }
 
         #region [Implementation of INotifyPropertyChanged]
         public event PropertyChangedEventHandler PropertyChanged;

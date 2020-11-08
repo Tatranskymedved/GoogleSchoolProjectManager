@@ -93,6 +93,22 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
+        private string mNewFolderName = null;
+        ///<summary>
+        /// NewFolderName
+        ///</summary>
+        public string NewFolderName
+        {
+            get { return this.mNewFolderName; }
+            set
+            {
+                if (value == this.mNewFolderName) return;
+
+                this.mNewFolderName = value;
+                OnPropertyChanged(nameof(NewFolderName));
+            }
+        }
+
         private string mGFolderSingleFolderOutput = null;
         ///<summary>
         /// GFolderSingleFolderOutput
@@ -278,7 +294,6 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
-
         private string mTitle = null;
         ///<summary>
         /// Title
@@ -451,6 +466,8 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                             DialogResultOnCancel = MessageDialogResult.Canceled
                         });
 
+                    List<Exception> errorList = new List<Exception>();
+
                     try
                     {
                         using (var con = new GoogleConnector())
@@ -459,7 +476,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                             var nameList = FileNamesList.ToList();
                             for (int i = 0; i < nameList.Count; i++)
                             {
-                                if (cancelToken.IsCancellationRequested) break;
+                                if (cancelToken.IsCancellationRequested || dialog.IsCanceled) break;
 
                                 var fileName = nameList[i];
 
@@ -470,7 +487,15 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                                     nameList.Count,
                                     fileName));
 
-                                manager.CopyFile(GFileTemplateSource, (MainSelectedItem as GFolder), fileName);
+                                try
+                                {
+                                    manager.CopyFile(GFileTemplateSource, (MainSelectedItem as GFolder), fileName);
+
+                                }
+                                catch(Exception ex)
+                                {
+                                    errorList.Add(ex);
+                                }
                             }
                         }
                     }
@@ -483,6 +508,12 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                     }
                     finally
                     {
+                        if (errorList?.Count > 0)
+                            await DialogCoordinator.ShowMessageAsync(this,
+                                Properties.Resources.Dialog_ExceptionOccurs_Title,
+                                string.Join(Environment.NewLine, errorList.Select(a => a.Message)),
+                                MessageDialogStyle.Affirmative);
+
                         dialog.CloseAsync();
                         mIsExecutingCMD_GenerateFilesFromTemplate = false;
                     }
@@ -582,7 +613,8 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 },
                 () =>
                 {
-                    return !mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes;
+                    return !mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes
+                        && Tree.FindAllFilesSelectedForUpdate().Any();
                 }, null);
 
                 return this.mCMD_KHSRequest_UpdateSelectedKHSes;
@@ -601,7 +633,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 
                 mCMD_CheckAllFiles_ForUpdate = new RelayCommand<bool>((checkIt) =>
                 {
-                    Tree.UpdateAllFilesInFolder((MainSelectedItem as GFolder), a => a.IsSelectedForUpdate = checkIt, (f) => f.IsNotGFolder && f.NameContainsKHS);
+                    Tree.UpdateAllFilesAndFoldersInFolder((MainSelectedItem as GFolder), a => a.IsSelectedForUpdate = checkIt, (f) => f.IsNotGFolder && f.NameContainsKHS);
                 },
                 (checkIt) => MainSelectedItem?.IsGFolder ?? false);
 
@@ -666,11 +698,137 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 {
                     if (!IsFolderLocked)
                     {
-                        Tree.UpdateAllFiles((a) => a.IsSelectedForUpdate = false);
+                        Tree.UpdateAllFilesAndFolders((a) => a.IsSelectedForUpdate = false);
                     }
                 });
 
                 return this.mCMD_SelectMainFolderToggleChanged;
+            }
+        }
+
+        private ICommand mCMD_GenerateEmptyFolder = null;
+        private bool mIsExecutingCMD_GenerateEmptyFolder = false;
+        ///<summary>
+        /// CMD_GenerateEmptyFolder
+        ///</summary>
+        public ICommand CMD_GenerateEmptyFolder
+        {
+            get
+            {
+                if (mCMD_GenerateEmptyFolder != null) return mCMD_GenerateEmptyFolder;
+
+                mCMD_GenerateEmptyFolder = new RelayAsyncCommand(async () =>
+                {
+                    mIsExecutingCMD_GenerateEmptyFolder = true;
+
+                    var dialogResult = await DialogCoordinator.ShowMessageAsync(this,
+                        Properties.Resources.DIALOG_CMD_GenerateEmptyFolder_BEFORE_Title,
+                        Properties.Resources.DIALOG_CMD_GenerateEmptyFolder_BEFORE_Message,
+                        MessageDialogStyle.AffirmativeAndNegative,
+                        new MetroDialogSettings()
+                        {
+                            AffirmativeButtonText = Properties.Resources.Button_Yes,
+                            NegativeButtonText = Properties.Resources.Button_No
+                        });
+
+                    if (dialogResult == MessageDialogResult.Canceled || dialogResult == MessageDialogResult.Negative)
+                    {
+                        mIsExecutingCMD_GenerateEmptyFolder = false;
+                        return;
+                    }
+
+                    var cancelToken = new CancellationToken();
+
+                    var dialog = await DialogCoordinator.ShowProgressAsync(this,
+                        Properties.Resources.DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Title,
+                        Properties.Resources.DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message_Before,
+                        true,
+                        new MetroDialogSettings()
+                        {
+                            CancellationToken = cancelToken,
+                            DialogResultOnCancel = MessageDialogResult.Canceled
+                        });
+
+                    List<Exception> errorList = new List<Exception>();
+
+                    try
+                    {
+                        using (var con = new GoogleConnector())
+                        {
+                            var manager = new GDriveManager(con);
+                            var folders = Tree.FindAllFoldersSelectedForUpdate();
+                            for (int i = 0; i < folders.Count; i++)
+                            {
+                                if (cancelToken.IsCancellationRequested || dialog.IsCanceled) break;
+
+                                var folder = folders[i];
+
+                                double progress = i / Convert.ToDouble(folders.Count);
+                                dialog.SetProgress(progress);
+                                dialog.SetMessage(string.Format(Properties.Resources.DIALOG_CMD_GenerateEmptyFolder_PROGRESS_Message,
+                                    i,
+                                    folders.Count,
+                                    folder.Name));
+
+                                try
+                                {
+                                    manager.CreateFolder((folder as GFolder), NewFolderName);
+                                }
+                                catch (Exception ex)
+                                {
+                                    errorList.Add(ex);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        await DialogCoordinator.ShowMessageAsync(this,
+                            Properties.Resources.Dialog_ExceptionOccurs_Title,
+                            ex.Message + Environment.NewLine + Environment.NewLine + ex.ToString() + Environment.NewLine + ex.StackTrace,
+                            MessageDialogStyle.Affirmative);
+                    }
+                    finally
+                    {
+                        if (errorList?.Count > 0)
+                            await DialogCoordinator.ShowMessageAsync(this,
+                                Properties.Resources.Dialog_ExceptionOccurs_Title,
+                                string.Join(Environment.NewLine, errorList.Select(a => a.Message)),
+                                MessageDialogStyle.Affirmative);
+
+                        dialog.CloseAsync();
+                        mIsExecutingCMD_GenerateEmptyFolder = false;
+                    }
+                },
+                () =>
+                {
+                    return !mIsExecutingCMD_GenerateEmptyFolder
+                        && (MainSelectedItem?.IsGFolder ?? false)
+                        && Tree.FindAllFoldersSelectedForUpdate().Any()
+                        && !string.IsNullOrEmpty(NewFolderName);
+                }, null);
+
+                return this.mCMD_GenerateEmptyFolder;
+            }
+        }
+
+        private ICommand mCMD_CheckAllTopLevelFolders = null;
+        ///<summary>
+        /// CMD_CheckAllTopLevelFolders
+        ///</summary>
+        public ICommand CMD_CheckAllTopLevelFolders
+        {
+            get
+            {
+                if (mCMD_CheckAllTopLevelFolders != null) return mCMD_CheckAllTopLevelFolders;
+
+                mCMD_CheckAllTopLevelFolders = new RelayCommand<bool>((checkIt) =>
+                {
+                    Tree.UpdateAllFilesAndFoldersInFolder((MainSelectedItem as GFolder), a => a.IsSelectedForUpdate = checkIt, (f) => f.IsGFolder && (f.GParent?.Equals(MainSelectedItem) ?? false));
+                },
+                (checkIt) => MainSelectedItem?.IsGFolder ?? false);
+
+                return this.mCMD_CheckAllTopLevelFolders;
             }
         }
 

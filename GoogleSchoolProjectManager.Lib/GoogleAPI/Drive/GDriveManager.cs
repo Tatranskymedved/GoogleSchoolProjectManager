@@ -97,6 +97,32 @@ namespace GoogleSchoolProjectManager.Lib.Google.Drive
             return new GTree(GetFiles());
         }
 
+        public void CreateFolder(GFolder destination, string newFolderName)
+        {
+            if (destination == null) throw new ArgumentNullException(nameof(destination));
+            if (string.IsNullOrEmpty(newFolderName)) throw new ArgumentNullException(nameof(newFolderName));
+
+            var folderCreateRequest = this.Service.Files.Create(new File()
+            {
+                Parents = new string [] { destination?.FileInfo?.Id },
+                Name = newFolderName,
+                MimeType = MimeTypes.GoogleFolder
+            });
+
+            if (!string.IsNullOrEmpty(DriveId))
+            {
+                folderCreateRequest.SupportsTeamDrives = true;
+                folderCreateRequest.SupportsAllDrives = false;
+            }
+            else
+            {
+                folderCreateRequest.SupportsTeamDrives = true;
+                folderCreateRequest.SupportsAllDrives = true;
+            }
+
+            folderCreateRequest.Execute();
+        }
+
         public void CopyFile(GFile source, GFolder destination, string newFileName)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));

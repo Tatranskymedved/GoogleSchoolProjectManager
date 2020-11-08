@@ -124,29 +124,15 @@ namespace GoogleSchoolProjectManager.Lib.Google
 
         public void UpdateSheets(IUpdateRequest khsRequest, Action<ProgressInfo> updateProgress, CancellationToken cancelToken, out List<Exception> errorList)
         {
-            errorList = new List<Exception>();
-
             if (khsRequest == null) throw new ArgumentNullException(nameof(khsRequest));
-
-            var weekRange = khsRequest.GetFormattedDateRange();
-            //var requestBatchUpdate_AddData = khsRequest.SubjectGoalList.ToList().Select((b, c) =>
-            //    new RowData()
-            //    {
-            //        Values = new List<CellData>()
-            //        {
-            //            new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = c == 0 ? weekRange : "" } },
-            //            new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = b.Subject }, UserEnteredFormat = new CellFormat() { TextFormat = new TextFormat() { Bold = true } } },
-            //            new CellData() { UserEnteredValue = new ExtendedValue() { StringValue = b.Goal } }
-            //        }
-            //    }).ToList();
-            var data = khsRequest.GetGRowList();
+            errorList = new List<Exception>();
 
             for (int i = 0; i < khsRequest.Files.Count; i++)
             {
                 if (cancelToken.IsCancellationRequested) return;
 
                 var gFile = khsRequest.Files[i];
-                updateProgress(new ProgressInfo() { FileName = gFile.Name, FileIndex = i + 1, FilesCount = khsRequest.Files.Count, Progress = (i / (float)khsRequest.Files.Count) });
+                updateProgress?.Invoke(new ProgressInfo() { FileName = gFile.Name, FileIndex = i + 1, FilesCount = khsRequest.Files.Count, Progress = (i / (float)khsRequest.Files.Count) });
 
                 try
                 {
@@ -161,7 +147,6 @@ namespace GoogleSchoolProjectManager.Lib.Google
 
                     var firstNewWeekRow = lastWeekRow;
                     var lastNewWeekRow = firstNewWeekRow + khsRequest.SubjectGoalList.Count;
-                    var range = UpdateKHSRequest.A1_GetListRange(khsRequest.SheetName, UpdateKHSRequest.A1_GetRange_WeekSubjectGoalColumns(firstNewWeekRow, lastNewWeekRow));
 
                     var batchRequest = new BatchUpdateSpreadsheetRequest()
                     {
@@ -169,21 +154,6 @@ namespace GoogleSchoolProjectManager.Lib.Google
                         {
                             //Fill all basic data
                             GCellRequestFactory.GenerateUpdateCellsRequest(khsRequest.GetGRowList(), new GCoordinate(worksheetInfo.SheetId, firstNewWeekRow, 1)),
-                            //new Request()
-                            //{
-                            //    UpdateCells = new UpdateCellsRequest()
-                            //    {
-                            //        Start = new GridCoordinate()
-                            //        {
-                            //            SheetId = worksheetInfo.SheetId,
-                            //            RowIndex = firstNewWeekRow,
-                            //            ColumnIndex = 1
-                            //        },
-                            //        Fields = "userEnteredValue.stringValue"
-                            //                +",userEnteredFormat.textFormat.bold",
-                            //        Rows = requestBatchUpdate_AddData
-                            //    }
-                            //},
 
                             //Merges first column (date)
                             GMergeCellsFactory.GenerateRequest(GMergeType.MergeAll, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 2)),

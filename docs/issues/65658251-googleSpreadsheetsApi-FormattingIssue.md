@@ -8,3 +8,13 @@ Sample test data:
 
 - [JSON with removed "null" values](requestExample.json)
 - [JSON with all values from request](requestExample_full.json)
+
+Explanation of the batch request - what is it suppose to do ( [x] works, [ ] doesn't work):
+
+- [x] Add date, format with bold
+- [x] Merge date (usually there are multiple cells)
+- [x] WrapStrategy, TextRotation, VerticalAlignment, HorizontalAlignment, Text-Bold, FontSize
+- [x] TextRotation by angle (must be separate style)
+- [x] 11x draw border
+- [x] repeatCell - background color
+- [ ] repeatCell - wrap strategy, verticalAlignment, horizontalAlignment

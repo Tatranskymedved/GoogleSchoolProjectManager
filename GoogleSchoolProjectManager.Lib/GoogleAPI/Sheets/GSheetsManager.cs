@@ -189,6 +189,36 @@ namespace GoogleSchoolProjectManager.Lib.Google
                                 }
                             ),
 
+                            //Update formatting in second column (subject)
+                            GCellRequestFactory.GenerateRepeatCellRequest(
+                                new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 2, 3),
+                                new GCell()
+                                            .AddFormat(GCellFormat.WrapStrategy, "WRAP")
+                                            .AddFormat(GCellFormat.VerticalAlignment, "MIDDLE")
+                                            .AddFormat(GCellFormat.HorizontalAlignment, "CENTER")
+                                            .AddFormat(GCellFormat.TextFormatBold, true)
+                                            .AddFormat(GCellFormat.TextFormatFontSize, 10)
+                            ),
+
+                            //Update formatting in third column (goal)
+                            GCellRequestFactory.GenerateRepeatCellRequest(
+                                new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 3, 4),
+                                new GCell()
+                                            .AddFormat(GCellFormat.WrapStrategy, "WRAP")
+                                            .AddFormat(GCellFormat.VerticalAlignment, "MIDDLE")
+                                            .AddFormat(GCellFormat.HorizontalAlignment, "CENTER")
+                                            .AddFormat(GCellFormat.TextFormatBold, false)
+                                            .AddFormat(GCellFormat.TextFormatFontSize, 10)
+                            ),
+
+                            //Update formatting in third column (goal)
+                            GCellRequestFactory.GenerateRepeatCellRequest(
+                                new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 4, 9),
+                                new GCell()
+                                            .AddFormat(GCellFormat.VerticalAlignment, "MIDDLE")
+                                            .AddFormat(GCellFormat.HorizontalAlignment, "CENTER")
+                            ),
+
                             //Creates borders around added part, inner rows lines, inner columns lines
                             GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 1, 2)),
                             GUpdateBordersFactory.GenerateRequest(GUpdateBordersType.Outer, GBorderLineType.SolidMedium, new GRange(worksheetInfo.SheetId, firstNewWeekRow, lastNewWeekRow, 2, 3)),

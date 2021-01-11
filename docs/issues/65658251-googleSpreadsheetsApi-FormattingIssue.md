@@ -4,4 +4,7 @@ Link to StackOverflow question: [Why Google spreadsheets API stops applying form
 
 Sample Google spreadsheet with full priviledges: [https://docs.google.com/spreadsheets/d/1_EED0i0e_SjBzkXyjV_9OODcpOhDwk-WPo6lP2bpApQ/edit?usp=sharing](https://docs.google.com/spreadsheets/d/1_EED0i0e_SjBzkXyjV_9OODcpOhDwk-WPo6lP2bpApQ/edit?usp=sharing)
 
-Sample test data: [requestExample.json](requestExample.json)
+Sample test data:
+
+- [JSON with removed "null" values](requestExample.json)
+- [JSON with all values from request](requestExample_full.json)

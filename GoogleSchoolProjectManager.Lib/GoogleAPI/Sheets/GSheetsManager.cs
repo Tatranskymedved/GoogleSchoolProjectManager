@@ -223,8 +223,7 @@ namespace GoogleSchoolProjectManager.Lib.Google
                         }
                     };
                     var update = Service.Spreadsheets.BatchUpdate(batchRequest, spreadsheetId);
-                    update.Execute();
-
+                    var response = update.Execute();
                 }
                 catch (Exception ex)
                 {

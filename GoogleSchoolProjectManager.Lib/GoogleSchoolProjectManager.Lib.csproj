@@ -98,6 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Properties\GlobalAssemblyInfo.cs" Link="Properties\GlobalAssemblyInfo.cs"/>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="credentials.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

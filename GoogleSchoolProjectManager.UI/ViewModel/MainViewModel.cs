@@ -307,6 +307,27 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
         }
 
+        private string mGoogleDriveName = null;
+        ///<summary>
+        /// GoogleDriveName - name of the drive, that should be accessed
+        ///</summary>
+        public string GoogleDriveName
+        {
+            get { return this.mGoogleDriveName; }
+            set
+            {
+                if (value == this.mGoogleDriveName) return;
+
+                this.mGoogleDriveName = value;
+                OnPropertyChanged(nameof(GoogleDriveName));
+                //TODO: Add saving to config file on property change
+            }
+        }
+
+        /// <summary>
+        /// List of Drives that are available to select from.
+        /// </summary>
+        public ObservableCollection<string> GoogleDrivesNames { get; set; } = new ObservableCollection<string>();
 
         #endregion
 
@@ -321,6 +342,14 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
 
             var version = Assembly.GetExecutingAssembly()?.GetName()?.Version;
             Title = Properties.Resources.APP_Title + $" - {version.Major}.{version.Minor}";
+
+            var drives = Properties.Settings.Default.GoogleDiskDrives?.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var drive in drives)
+            {
+                GoogleDrivesNames.Add(drive);
+            }
+            var previouslySetGoogleDiskName = Properties.Settings.Default.GoogleDiskDrive;
+            GoogleDriveName = drives.Contains(previouslySetGoogleDiskName) ? previouslySetGoogleDiskName : GoogleDrivesNames.FirstOrDefault();
         }
 
         #region [Commands]

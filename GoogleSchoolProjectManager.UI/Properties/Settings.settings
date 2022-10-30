@@ -14,5 +14,8 @@
     <Setting Name="KHS_A1_WeekColumn" Type="System.String" Scope="User">
       <Value Profile="(Default)">B4:B</Value>
     </Setting>
+    <Setting Name="GoogleDiskDrives" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OSTODISK;PÁŤÁCI</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

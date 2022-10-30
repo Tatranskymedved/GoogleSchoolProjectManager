@@ -34,6 +34,9 @@
                                                   Mode=FindAncestor,
                                                   AncestorType=Window}}"/>
             </MenuItem>
+            
+            <ComboBox ItemsSource="{Binding GoogleDrivesNames}" SelectedItem="{Binding GoogleDriveName}" />
+            
             <!--<MenuItem Header="{x:Static p:Resources.APP_MENU_Tools}">
                 <MenuItem Header="_Manage users">
                     <MenuItem.Icon>

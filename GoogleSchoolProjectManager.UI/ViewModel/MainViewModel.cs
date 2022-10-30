@@ -361,7 +361,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                     }
                     finally
                     {
-                        dialog.CloseAsync();
+                        await dialog.CloseAsync();
                         mIsExecutingCMD_GetFolderTree = false;
                     }
                 },
@@ -511,7 +511,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                                 string.Join(Environment.NewLine, errorList.Select(a => a.Message)),
                                 MessageDialogStyle.Affirmative);
 
-                        dialog.CloseAsync();
+                        await dialog.CloseAsync();
                         mIsExecutingCMD_GenerateFilesFromTemplate = false;
                     }
                 },
@@ -604,7 +604,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                     }
                     finally
                     {
-                        dialog.CloseAsync();
+                        await dialog.CloseAsync();
                         mIsExecutingCMD_KHSRequest_UpdateSelectedKHSes = false;
                     }
                 },
@@ -793,7 +793,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                                 string.Join(Environment.NewLine, errorList.Select(a => a.Message)),
                                 MessageDialogStyle.Affirmative);
 
-                        dialog.CloseAsync();
+                        await dialog.CloseAsync();
                         mIsExecutingCMD_GenerateEmptyFolder = false;
                     }
                 },
@@ -828,6 +828,26 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 return this.mCMD_CheckAllTopLevelFolders;
             }
         }
+
+        private ICommand mCMD_CloseWindow = null;
+        ///<summary>
+        /// CMD_CloseWindow
+        ///</summary>
+        public ICommand CMD_CloseWindow
+        {
+            get
+            {
+                if (mCMD_CloseWindow != null) return mCMD_CloseWindow;
+
+                mCMD_CloseWindow = new RelayCommand(() =>
+                {
+                    System.Environment.Exit(0);
+                });
+
+                return this.mCMD_CloseWindow;
+            }
+        }
+
 
         #endregion
 

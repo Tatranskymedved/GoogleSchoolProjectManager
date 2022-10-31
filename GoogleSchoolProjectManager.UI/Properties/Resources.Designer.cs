@@ -88,6 +88,15 @@ namespace GoogleSchoolProjectManager.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drive:.
+        /// </summary>
+        public static string APP_MENU_Label_Drive {
+            get {
+                return ResourceManager.GetString("APP_MENU_Label_Drive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Count of selected items: .
         /// </summary>
         public static string APP_MENU_Status_CountOfSelectedFiles {

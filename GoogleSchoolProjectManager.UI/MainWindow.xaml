@@ -34,9 +34,21 @@
                                                   Mode=FindAncestor,
                                                   AncestorType=Window}}"/>
             </MenuItem>
-            
-            <ComboBox ItemsSource="{Binding GoogleDrivesNames}" SelectedItem="{Binding GoogleDriveName}" />
-            
+
+            <MenuItem>
+                <MenuItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="{x:Static p:Resources.APP_MENU_Label_Drive}" />
+                        <ComboBox ItemsSource="{Binding GoogleDrivesNames}" SelectedItem="{Binding GoogleDriveName}" Grid.Column="1"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+
             <!--<MenuItem Header="{x:Static p:Resources.APP_MENU_Tools}">
                 <MenuItem Header="_Manage users">
                     <MenuItem.Icon>
@@ -135,7 +147,7 @@
 
             <!-- Vertical for bottom row-->
             <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="5" VerticalAlignment="Center"/>
-            
+
             <GroupBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Header="{x:Static p:Resources.GROUP_HEADER_GeneratingFiles}" Margin="1" IsEnabled="{Binding IsFolderLocked, Mode=OneWay}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -210,7 +222,7 @@
                     <Button Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Margin="3,1" Grid.RowSpan="1"
                             Command="{Binding CMD_GenerateEmptyFolder}"
                             Content="{x:Static p:Resources.CMD_GenerateEmptyFolder}"/>
-                    
+
                     <TreeView Grid.Column="4" Grid.Row="0" Grid.RowSpan="10"
                               ItemsSource="{Binding MainSelectedItem.Items}"
                               IsEnabled="{Binding Path=IsFolderLocked}">

@@ -129,6 +129,10 @@
     <value>_File</value>
     <comment>Main menu button, File</comment>
   </data>
+  <data name="APP_MENU_Label_Drive" xml:space="preserve">
+    <value>Drive:</value>
+    <comment>Label in the menu for drives selection (next to ComboBox)</comment>
+  </data>
   <data name="APP_MENU_Status_CountOfSelectedFiles" xml:space="preserve">
     <value>Count of selected items: </value>
   </data>

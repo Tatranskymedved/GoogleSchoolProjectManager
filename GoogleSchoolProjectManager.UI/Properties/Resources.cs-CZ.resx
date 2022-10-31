@@ -129,6 +129,10 @@
     <value>_Soubor</value>
     <comment>Main menu button, File</comment>
   </data>
+  <data name="APP_MENU_Label_Drive" xml:space="preserve">
+    <value>Disk:</value>
+    <comment>Label in the menu for drives selection (next to ComboBox)</comment>
+  </data>
   <data name="APP_MENU_Status_CountOfSelectedFiles" xml:space="preserve">
     <value>Počet vybraných položek:</value>
   </data>

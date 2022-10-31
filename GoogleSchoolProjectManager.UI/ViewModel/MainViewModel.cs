@@ -317,12 +317,19 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             set
             {
                 if (value == this.mGoogleDriveName) return;
+                if (string.IsNullOrWhiteSpace(value)) return;
 
                 this.mGoogleDriveName = value;
                 OnPropertyChanged(nameof(GoogleDriveName));
-                //TODO: Add saving to config file on property change
+                if (preventConfigFileSave == false)
+                {
+                    Properties.Settings.Default.GoogleDiskDrive = value;
+                    SaveConfigFile();
+                }
             }
         }
+
+        private bool preventConfigFileSave = false;
 
         /// <summary>
         /// List of Drives that are available to select from.
@@ -376,8 +383,7 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                     {
                         using (var con = new GoogleConnector())
                         {
-                            string diskName = Properties.Settings.Default["GoogleDiskDrive"].ToString();
-                            //const string diskName = "OSTODISK";
+                            string diskName = GoogleDriveName;
                             Tree = new GDriveManager(con) { DriveName = diskName }.GetTree();
                         }
                     }
@@ -396,7 +402,8 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
                 },
                 () =>
                 {
-                    return !mIsExecutingCMD_GetFolderTree;
+                    return mIsExecutingCMD_GetFolderTree == false
+                    && string.IsNullOrWhiteSpace(GoogleDriveName) == false;
                 }, null);
 
                 return this.mCMD_GetFolderTree;
@@ -895,6 +902,11 @@ namespace GoogleSchoolProjectManager.UI.ViewModel
             }
 
             return null;
+        }
+
+        private void SaveConfigFile()
+        {
+            Properties.Settings.Default.Save();
         }
         #endregion
 

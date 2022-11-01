@@ -1,14 +1,10 @@
 ﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Google.Apis.Sheets.v4;
-using Google.Apis.Drive.v3;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Web;
-using System.Threading;
 using GoogleSchoolProjectManager.Lib.Google.Drive;
+using System;
+using System.Threading;
 
 namespace GoogleSchoolProjectManager.Lib.Google
 {
@@ -35,17 +31,11 @@ namespace GoogleSchoolProjectManager.Lib.Google
 
         public void CreateConnection()
         {
-            ICredential credential;
-            //UserCredential userCred;
-
-            using (var stream = new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
-            {
-                credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    _scopes,
-                    "user",
-                    CancellationToken.None).Result;
-            }
+            var credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                GoogleClientSecrets.FromFile("credentials.json").Secrets,
+                _scopes,
+                "user",
+                CancellationToken.None).Result;
 
             // Creates Google Drive/Sheets API service against which the requests can be created/called.
             Drive = new DriveService(new BaseClientService.Initializer()
